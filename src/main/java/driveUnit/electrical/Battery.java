@@ -1,8 +1,6 @@
 package driveUnit.electrical;
 
-import teil2.task03.IBattery;
-
-public class Battery implements IBattery {
+public class Battery implements teil2.task03.IBattery {
     private boolean[][][] capacity;
 
     public Battery() {

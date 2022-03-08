@@ -17,16 +17,25 @@ public class testTask03 {
     @Test
     @Order(1)
     public void buildComplete() {
-       assertEquals(100000,cellBattery.maxCapacity());
-       assertSame(CellBattery.class,cellBattery.getClass());
-       CellBattery cellB=(CellBattery)cellBattery;
+        cellBatteryTest(cellBattery);
+    }
+    public static void cellBatteryTest(IBattery cellBattery){
+        assertNotNull(cellBattery);
+        assertEquals(100000,cellBattery.maxCapacity());
+        assertSame(CellBattery.class,cellBattery.getClass());
+        CellBattery cellB=(CellBattery)cellBattery;
+        assertNotNull(cellB.getUnitList());
         assertSame(MainCell[].class,cellB.getUnitList().getClass());
+        assertNotNull(cellB.getUnitList()[0].getUnitList());
         assertSame(SubCell[].class,cellB.getUnitList()[0].getUnitList().getClass());
+        assertNotNull(cellB.getUnitList()[0].getUnitList()[0].getUnitList());
         assertSame(Cell[].class,cellB.getUnitList()[0].getUnitList()[0].getUnitList().getClass());
+        assertNull(cellB.getUnitList()[0].getUnitList()[0].getUnitList()[0].getUnitList());
         assertEquals(100,cellB.getUnitList().length);
         assertEquals(100,cellB.getUnitList()[0].getUnitList().length);
         assertEquals(10,cellB.getUnitList()[0].getUnitList()[0].getUnitList().length);
     }
+
     @Test
     @Order(2)
     public void functionTest(){

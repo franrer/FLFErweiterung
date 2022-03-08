@@ -1,5 +1,7 @@
 package driveUnit.electrical;
 
+import teil2.task03.IBattery;
+
 public enum BatteryManagement {
     INSTANCE;
 
@@ -7,15 +9,15 @@ public enum BatteryManagement {
 
     public String load(int amount) {
         int toLoad = amount;
-        Battery[][] batteries = batterybox.getBatteries();
-        for (int x = batteries.length - 1; x >= 0; x--) {
-            for (int y = batteries[x].length - 1; y >= 0; y--) {
-                if (batteries[x][y].emptySpace() >= toLoad) {
-                    batteries[x][y].charge(toLoad);
+        IBattery[][] batteries = batterybox.getBatteries();
+        for (IBattery[] batteryLine : batteries) {
+            for (IBattery battery : batteryLine) {
+                if (battery.emptySpace() >= toLoad) {
+                    battery.charge(toLoad);
                     return "load successful" + amount + " units";
                 } else {
-                    batteries[x][y].fillToMax();
-                    toLoad -= batteries[x][y].emptySpace();
+                    toLoad -= battery.emptySpace();
+                    battery.fillToMax();
                 }
             }
         }
@@ -24,15 +26,15 @@ public enum BatteryManagement {
 
     public String use(int amount) {
         int toUse = amount;
-        Battery[][] batteries = batterybox.getBatteries();
-        for (Battery[] batteryLine : batteries) {
-            for (Battery battery : batteryLine) {
+        IBattery[][] batteries = batterybox.getBatteries();
+        for (IBattery[] batteryLine : batteries) {
+            for (IBattery battery : batteryLine) {
                 if (battery.occupiedSpace() >= toUse) {
                     battery.takeOut(toUse);
                     return amount + " units used";
                 } else {
-                    battery.takeOut(battery.occupiedSpace());
                     toUse -= battery.occupiedSpace();
+                    battery.takeOut(battery.occupiedSpace());
                 }
             }
         }
@@ -41,8 +43,8 @@ public enum BatteryManagement {
 
     public int lookAmount() {
         int amount = 0;
-        for (Battery[] batteryLine : batterybox.getBatteries()) {
-            for (Battery b : batteryLine) {
+        for (IBattery[] batteryLine : batterybox.getBatteries()) {
+            for (IBattery b : batteryLine) {
                 amount += b.occupiedSpace();
             }
         }
@@ -60,8 +62,8 @@ public enum BatteryManagement {
 
     public int lookAmountInPercent() {
         int max = 0;
-        for (Battery[] batteryLine : batterybox.getBatteries()) {
-            for (Battery b : batteryLine) {
+        for (IBattery[] batteryLine : batterybox.getBatteries()) {
+            for (IBattery b : batteryLine) {
                 max += b.maxCapacity();
             }
         }

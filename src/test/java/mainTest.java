@@ -21,6 +21,7 @@ import lights.Position;
 import mixingUnit.MixingUnit;
 import mixingUnit.Tank;
 import org.junit.jupiter.api.*;
+import teil2.task03.IBattery;
 import turrets.FloorSprayNozzle;
 import turrets.Turret;
 import turrets.turretsWithFoam.FrontTurret;
@@ -145,7 +146,7 @@ public class mainTest {
             assertNotNull(dri.getBatteryManagement());
             assertNotNull(dri.getBatteryManagement().getBatteryBox());
             assertNotNull(dri.getBatteryManagement().getBatteryBox().getBatteries());
-            Battery[][] batteries = dri.getBatteryManagement().getBatteryBox().getBatteries();
+            IBattery[][] batteries = dri.getBatteryManagement().getBatteryBox().getBatteries();
             int stdBoxLength = 2;
             int stdBoxWidth = 2;
             assertEquals(stdBoxLength, batteries.length);
@@ -153,13 +154,16 @@ public class mainTest {
             int stdBatLength = 100;
             int stdBatWidth = 10;
             int stdBatHeight = 100;
-            for (Battery[] batteryLine : batteries) {
-                for (Battery bat : batteryLine) {
+            for (IBattery[] batteryLine : batteries) {
+                for (IBattery bat : batteryLine) {
                     assertNotNull(bat);
+                    /* old Batterys
                     assertNotNull(bat.getCapacity());
                     assertEquals(stdBatLength, bat.getCapacity().length);
                     assertEquals(stdBatWidth, bat.getCapacity()[0].length);
                     assertEquals(stdBatHeight, bat.getCapacity()[0][0].length);
+                    */
+
                 }
             }
         }
