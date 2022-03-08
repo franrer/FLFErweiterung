@@ -11,7 +11,7 @@ import teil2.task05.ThreeToOneAdapter;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class testTask05 {
+public class TestTask05 {
 
     private BatteryManagement batteryManagement;
     private LoadingStation loadingStation;
@@ -39,7 +39,7 @@ public class testTask05 {
         assertNotNull(batteryManagement.getBatteryBox());
         for(IBattery[] battery:batteryManagement.getBatteryBox().getBatteries()){
             for(IBattery cellBattery:battery){
-                testTask03.cellBatteryTest(cellBattery);
+                TestTask03.cellBatteryTest(cellBattery);
             }
         }
         assertNotNull(loadingStation);

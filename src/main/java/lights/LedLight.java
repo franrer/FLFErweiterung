@@ -19,4 +19,9 @@ public class LedLight extends Light {
     }
 
 
+    public void setColor(LightColor color){
+        this.color=color;
+    }
+
+
 }

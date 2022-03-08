@@ -6,7 +6,7 @@ import teil2.task03.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class testTask03 {
+public class TestTask03 {
     private IBattery cellBattery;
 
     @BeforeEach

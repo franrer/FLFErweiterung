@@ -7,7 +7,7 @@ public class Light {
     private CCU ccu;
     private boolean isOn;
     private Position position;
-    private LightColor color;
+    protected LightColor color;
     private Side side;
     private Type type;
 
