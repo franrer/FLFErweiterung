@@ -1,11 +1,19 @@
 package mixingUnit;
 
+import teil2.task08.TankSensor;
+
 public abstract class Tank {
 
-    protected boolean[][][] capacity;
+    private boolean[][][] capacity;
+    private TankSensor sensor;
 
     public Tank(int length, int width, int height) {
         capacity = new boolean[length][width][height];
+    }
+
+    public Tank(int length, int width, int height,TankSensor tankSensor) {
+        capacity = new boolean[length][width][height];
+        this.sensor=tankSensor;
     }
 
     public void fill(int amount) {
@@ -18,6 +26,9 @@ public abstract class Tank {
             if (x == capacity.length - 1 && y == capacity[0].length - 1) z++;
             if (x == capacity.length - 1) y = ++y % capacity[0].length;
             x = ++x % capacity.length;
+        }
+        if(sensor!=null){
+            sensor.measure(((double)occupiedSpace()/(double)maxCapacity())*100);
         }
     }
 
@@ -41,6 +52,10 @@ public abstract class Tank {
         fill(emptySpace());
     }
 
+    public TankSensor getSensor() {
+        return sensor;
+    }
+
     public int takeOut(int amount) {
         int[] pos = getPositionFirstEmpty();
         int x = pos[0];
@@ -59,6 +74,9 @@ public abstract class Tank {
             }
             x--;
             capacity[x][y][z] = false;
+        }
+        if(sensor!=null){
+            sensor.measure(((double)occupiedSpace()/(double)maxCapacity())*100);
         }
         return amount;
 

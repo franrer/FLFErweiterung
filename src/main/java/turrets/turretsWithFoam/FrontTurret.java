@@ -1,6 +1,9 @@
 package turrets.turretsWithFoam;
 
-public class FrontTurret extends TurretWithFoam {
+import teil2.task09.ITesterVisitor;
+import teil2.task09.IUnitToTest;
+
+public class FrontTurret extends TurretWithFoam implements IUnitToTest {
     private int position;
 
     public FrontTurret() {
@@ -62,5 +65,10 @@ public class FrontTurret extends TurretWithFoam {
             position = 0;
         }
         super.onOff();
+    }
+
+    @Override
+    public void accept(ITesterVisitor visitor) {
+        visitor.visit(this);
     }
 }

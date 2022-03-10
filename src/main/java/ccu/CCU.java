@@ -20,16 +20,21 @@ import lights.Light;
 import lights.Side;
 import lights.Type;
 import mixingUnit.IMixingUnit;
+import teil2.task09.ITesterVisitor;
+import teil2.task09.IUnitToTest;
 import turrets.FloorSprayNozzle;
+import turrets.turretsWithFoam.FrontTurret;
+import turrets.turretsWithFoam.RoofTurret;
 import turrets.turretsWithFoam.TurretWithFoam;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class CCU implements ITurretControl, IDriveUnitControl, ILightControl {
+public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, ITesterVisitor {
 
     private IMixingUnit mixingUnit;
     private IDriveUnit driveUnit;
@@ -40,6 +45,7 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl {
     private DES des;
     private int code;
     private Person[] users;
+    private List<IUnitToTest> unitsToTest;
 
     public CCU(IMixingUnit mixingUnit, IDriveUnit driveUnit, DriverSection driverSection, OperatorSection operatorSection, Light[] lights) {
         this.mixingUnit = mixingUnit;
@@ -51,10 +57,11 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl {
         for (int i = 0; i < 7; i++) {
             floorSprayNozzle[i] = new FloorSprayNozzle(this);
         }
-
+        unitsToTest=new ArrayList<>();
     }
 
     public CCU(DriverSection driverSection) {
+        unitsToTest=new ArrayList<>();
         this.driverSection = driverSection;
     }
 
@@ -157,6 +164,11 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl {
                 driveUnit.shutdownEngine();
             } else {
                 driveUnit.startEngine();
+                if(!unitsToTest.isEmpty()){
+                    for(IUnitToTest unit:unitsToTest){
+                        unit.accept(this);
+                    }
+                }
             }
         } else if (s instanceof SelfProtection) {
             for (FloorSprayNozzle f : floorSprayNozzle) {
@@ -258,7 +270,7 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl {
             e.printStackTrace();
         }
 
-        String cmpString = "FT-DUS-FLF-5-";
+        String cmpString = "FT-DUS-FLF.FLF-5-";
         String endString = "-" + getCode();
 
         for (Person u : users) {
@@ -269,5 +281,32 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl {
             }
         }
 
+    }
+
+    public void addUnitToTest(IUnitToTest testUnit){
+        unitsToTest.add(testUnit);
+    }
+
+    public void removeUnitToTest(IUnitToTest testUnit){
+        unitsToTest.remove(testUnit);
+    }
+
+    @Override
+    public void visit(FloorSprayNozzle floorSprayNozzle) {
+
+    }
+
+    @Override
+    public void visit(FrontTurret frontTurret) {
+
+    }
+
+    @Override
+    public void visit(RoofTurret roofTurret) {
+
+    }
+
+    public List<IUnitToTest> getUnitsToTest() {
+        return unitsToTest;
     }
 }

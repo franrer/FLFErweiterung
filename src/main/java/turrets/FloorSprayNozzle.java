@@ -1,8 +1,10 @@
 package turrets;
 
 import ccu.CCU;
+import teil2.task09.ITesterVisitor;
+import teil2.task09.IUnitToTest;
 
-public class FloorSprayNozzle extends Turret {
+public class FloorSprayNozzle extends Turret implements IUnitToTest {
 
     CCU ccu;
 
@@ -11,5 +13,8 @@ public class FloorSprayNozzle extends Turret {
         this.ccu = ccu;
     }
 
-
+    @Override
+    public void accept(ITesterVisitor visitor) {
+        visitor.visit(this);
+    }
 }

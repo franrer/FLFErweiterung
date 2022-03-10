@@ -4,6 +4,9 @@ import lights.LedLight;
 import lights.LightColor;
 
 public class TankLed implements ITankSensorListener{
+    public TankLed(LedLight led) {
+        this.led = led;
+    }
 
     LedLight led;
     @Override
@@ -27,5 +30,10 @@ public class TankLed implements ITankSensorListener{
     @Override
     public void moreThanHalf() {
         led.setOn(false);
+        led.setColor(LightColor.WHITE);
+    }
+
+    public LedLight getLed() {
+        return led;
     }
 }

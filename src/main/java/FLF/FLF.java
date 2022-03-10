@@ -1,3 +1,5 @@
+package FLF;
+
 import cabin.BusDoor;
 import cabin.Cabin;
 import cabin.driverSection.DriverSection;
@@ -110,7 +112,7 @@ public class FLF {
 
         public Builder(boolean intelligentJoystick) {
 
-            name = "DUS | FLF-5";
+            name = "DUS | FLF.FLF-5";
 
             driveUnit = buildDriveUnit();
 
@@ -129,7 +131,7 @@ public class FLF {
             RFIDChip rfid1 = null;
 
             try {
-                rfid1 = new RFIDChip(ccu.getDes().encrypt("FT-DUS-FLF-5-Red Adair-6072"));
+                rfid1 = new RFIDChip(ccu.getDes().encrypt("FT-DUS-FLF.FLF-5-Red Adair-6072"));
             } catch (UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException e) {
                 e.printStackTrace();
             }
@@ -138,7 +140,7 @@ public class FLF {
             RFIDChip rfid2 = null;
 
             try {
-                rfid2 = new RFIDChip(ccu.getDes().encrypt("FT-DUS-FLF-5-Sam-6072"));
+                rfid2 = new RFIDChip(ccu.getDes().encrypt("FT-DUS-FLF.FLF-5-Sam-6072"));
             } catch (UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException e) {
                 e.printStackTrace();
             }

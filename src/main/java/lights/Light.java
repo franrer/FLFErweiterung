@@ -48,5 +48,7 @@ public class Light {
         return type;
     }
 
-
+    public LightColor getColor() {
+        return color;
+    }
 }

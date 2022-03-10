@@ -1,8 +1,11 @@
 package turrets.turretsWithFoam;
 
+import teil2.task09.ITesterVisitor;
+import teil2.task09.IUnitToTest;
+
 import java.util.ArrayList;
 
-public class RoofTurret extends TurretWithFoam {
+public class RoofTurret extends TurretWithFoam implements IUnitToTest {
     private int positionVertical;
     private ArrayList<Segment> segments;
 
@@ -57,5 +60,10 @@ public class RoofTurret extends TurretWithFoam {
             positionVertical = 0;
         }
         super.onOff();
+    }
+
+    @Override
+    public void accept(ITesterVisitor visitor) {
+        visitor.visit(this);
     }
 }

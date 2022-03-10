@@ -17,6 +17,18 @@ public class TankSensor {
         listenerList.remove(listener);
     }
 
+    public void measure(double percent) {
+        if (percent <= 10) {
+            lessThanTenPercentRemaining();
+        }else if(percent <=25){
+            lessThanQuarterRemaining();
+        }else if(percent <=50){
+            lessThanHalfRemaining();
+        }else{
+            moreThanHalfRemaining();
+        }
+    }
+
     public void moreThanHalfRemaining() {
         for (ITankSensorListener listener : listenerList) {
             listener.moreThanHalf();

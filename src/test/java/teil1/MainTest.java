@@ -1,3 +1,6 @@
+package teil1;
+
+import FLF.FLF;
 import cabin.BusDoor;
 import cabin.Cabin;
 import cabin.driverSection.DriverSection;
@@ -6,7 +9,6 @@ import cabin.operatorSection.OperatorSection;
 import ccu.CCU;
 import driveUnit.DriveUnit;
 import driveUnit.ElectricEngine;
-import driveUnit.electrical.Battery;
 import driveUnit.mechanical.Axis;
 import driveUnit.mechanical.SteeringAxis;
 import inputs.switches.LightSwitch;
@@ -35,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class mainTest {
+public class MainTest {
     private FLF flf;
 
     @BeforeEach
@@ -46,6 +48,9 @@ public class mainTest {
     @Test
     @Order(1)
     public void buildComplete() {
+        buildTest(flf);
+    }
+    public static void buildTest(FLF flf){
         //flf
         assertNotNull(flf);
         assertNotNull(flf.getPowerUnit());
@@ -188,7 +193,7 @@ public class mainTest {
 
     }
 
-    public void buildTurret(Turret t, int stdout) {
+    public static void buildTurret(Turret t, int stdout) {
         assertEquals(stdout, t.getTurretOutput());
         if (t instanceof TurretWithFoam ft) {
             assertEquals(0, ft.getFoam());
@@ -212,26 +217,26 @@ public class mainTest {
         }
     }
 
-    public void buildTank(Tank t, int length, int width, int height) {
+    public static void buildTank(Tank t, int length, int width, int height) {
         assertNotNull(t.getCapacity());
         assertEquals(length, t.getCapacity().length);
         assertEquals(width, t.getCapacity()[0].length);
         assertEquals(height, t.getCapacity()[0][0].length);
     }
 
-    public void buildEngine(ElectricEngine e) {
+    public static void buildEngine(ElectricEngine e) {
         assertNotNull(e.getPowerUnit());
         Assertions.assertFalse(e.isStarted());
         double stdConsumption = 12.5;
         assertEquals(stdConsumption, e.getConsumption());
     }
 
-    public void buildSteeringAxis(SteeringAxis axis) {
+    public static void buildSteeringAxis(SteeringAxis axis) {
         int stdDirection = 0;
         assertEquals(stdDirection, axis.getDirection());
     }
 
-    public void buildAxis(Axis axis) {
+    public static void buildAxis(Axis axis) {
         int amountTires = 2;
         int amountBrakeDiscs = 6;
         assertNotNull(axis.getWheels());
@@ -246,7 +251,7 @@ public class mainTest {
         }
     }
 
-    public void buildSwitch(Switch s) {
+    public static void buildSwitch(Switch s) {
         Assertions.assertFalse(s.isOn());
         assertNotNull(s.getControlPanel());
         if (s instanceof LightSwitch l) {
@@ -257,7 +262,7 @@ public class mainTest {
         }
     }
 
-    public void buildJoystick(AbstractJoystick joystick) {
+    public static void buildJoystick(AbstractJoystick joystick) {
         if (joystick instanceof Joystick j) {
             assertNotNull(j.getButtonLeft());
             buildJoystickButton(j.getButtonLeft(), Position.LEFT);
@@ -270,13 +275,13 @@ public class mainTest {
         }
     }
 
-    public void buildJoystickButton(ButtonJoy b, Position p) {
+    public static void buildJoystickButton(ButtonJoy b, Position p) {
         assertNotNull(b.getJoystick());
         assertNotNull(b.getPosition());
         assertEquals(p, b.getPosition());
     }
 
-    public void buildRotaryKnob(RotaryKnob r) {
+    public static void buildRotaryKnob(RotaryKnob r) {
         int stdStage = 1;
         assertNotNull(r.getTurretSection());
         assertNotNull(r.getTurret());
@@ -284,7 +289,7 @@ public class mainTest {
 
     }
 
-    public void buildDoor(BusDoor d) {
+    public static void buildDoor(BusDoor d) {
         assertNotNull(d.getButtonDoor());
         assertNotNull(d.getCabin());
         assertNotNull(d.getSide());
