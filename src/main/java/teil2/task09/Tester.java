@@ -7,6 +7,8 @@ import inputs.turretInputs.AbstractJoystick;
 import inputs.turretInputs.Joystick;
 import inputs.turretInputs.RotaryKnob;
 import turrets.FloorSprayNozzle;
+import turrets.turretsWithFoam.FrontTurret;
+import turrets.turretsWithFoam.RoofTurret;
 import turrets.turretsWithFoam.TurretWithFoam;
 
 public class Tester {
@@ -22,12 +24,12 @@ public class Tester {
         nozzleId = 0;
     }
 
-    public void frontTurretTest(TurretWithFoam turret) {
+    public void frontTurretTest(FrontTurret turret) {
         DriverSection drs = ccu.getDriverSection();
         frontTurretTestResult = turretTest(drs.getJoystick(), 0, drs.getRotaryKnob(), 0, 1, turret.getTurretOutput(), turret.getFoam(), turret.isActive());
     }
 
-    public void roofTurretTest(TurretWithFoam turret) {
+    public void roofTurretTest(RoofTurret turret) {
         OperatorSection ops = ccu.getOperatorSection();
         roofTurretTestResult = turretTest(ops.getJoystick(), 0, ops.getRotaryKnob(), 0, 1, turret.getTurretOutput(), turret.getFoam(), turret.isActive());
     }

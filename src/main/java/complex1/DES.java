@@ -30,9 +30,9 @@ public class DES implements IEncryptionStrategy {
     }
 
     @Override
-    public String encrypt(String s) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
+    public String encrypt(String string) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
 
-        byte[] enc = ecipher.doFinal(s.getBytes(StandardCharsets.UTF_8));
+        byte[] enc = ecipher.doFinal(string.getBytes(StandardCharsets.UTF_8));
 
         enc = Base64.getEncoder().encode(enc);
 
@@ -41,9 +41,9 @@ public class DES implements IEncryptionStrategy {
     }
 
     @Override
-    public String decrypt(String s) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
+    public String decrypt(String string) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
 
-        byte[] utf8 = s.getBytes(StandardCharsets.UTF_8);
+        byte[] utf8 = string.getBytes(StandardCharsets.UTF_8);
 
         byte[] dec = Base64.getDecoder().decode(utf8);
 
