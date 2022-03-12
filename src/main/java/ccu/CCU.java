@@ -22,6 +22,7 @@ import mixingUnit.IMixingUnit;
 import teil2.task04.IEncryptionStrategy;
 import teil2.task09.ITesterVisitor;
 import teil2.task09.IUnitToTest;
+import teil2.task09.Tester;
 import turrets.FloorSprayNozzle;
 import turrets.turretsWithFoam.FrontTurret;
 import turrets.turretsWithFoam.RoofTurret;
@@ -46,6 +47,7 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private int code;
     private Person[] users;
     private List<IUnitToTest> unitsToTest;
+    private Tester tester;
 
     public CCU(IMixingUnit mixingUnit, IDriveUnit driveUnit, DriverSection driverSection, OperatorSection operatorSection, Light[] lights) {
         this.mixingUnit = mixingUnit;
@@ -57,11 +59,11 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
         for (int i = 0; i < 7; i++) {
             floorSprayNozzle[i] = new FloorSprayNozzle(this);
         }
-        unitsToTest=new ArrayList<>();
+        unitsToTest = new ArrayList<>();
     }
 
     public CCU(DriverSection driverSection) {
-        unitsToTest=new ArrayList<>();
+        unitsToTest = new ArrayList<>();
         this.driverSection = driverSection;
     }
 
@@ -164,8 +166,8 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
                 driveUnit.shutdownEngine();
             } else {
                 driveUnit.startEngine();
-                if(!unitsToTest.isEmpty()){
-                    for(IUnitToTest unit:unitsToTest){
+                if (!unitsToTest.isEmpty() && tester != null) {
+                    for (IUnitToTest unit : unitsToTest) {
                         unit.accept(this);
                     }
                 }
@@ -283,30 +285,38 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
 
     }
 
-    public void addUnitToTest(IUnitToTest testUnit){
+    public void addUnitToTest(IUnitToTest testUnit) {
         unitsToTest.add(testUnit);
     }
 
-    public void removeUnitToTest(IUnitToTest testUnit){
+    public void removeUnitToTest(IUnitToTest testUnit) {
         unitsToTest.remove(testUnit);
     }
 
     @Override
     public void visit(FloorSprayNozzle floorSprayNozzle) {
-
+        tester.nozzleTest(floorSprayNozzle);
     }
 
     @Override
     public void visit(FrontTurret frontTurret) {
-
+        tester.frontTurretTest(frontTurret);
     }
 
     @Override
     public void visit(RoofTurret roofTurret) {
-
+        tester.roofTurretTest(roofTurret);
     }
 
     public List<IUnitToTest> getUnitsToTest() {
         return unitsToTest;
+    }
+
+    public void setTester(Tester tester) {
+        this.tester = tester;
+    }
+
+    public Tester getTester() {
+        return tester;
     }
 }

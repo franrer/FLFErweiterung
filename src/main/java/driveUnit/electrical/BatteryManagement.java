@@ -1,11 +1,13 @@
 package driveUnit.electrical;
 
 import teil2.task03.IBattery;
+import teil2.task05.ThreePinConnector;
 
 public enum BatteryManagement {
     INSTANCE;
 
     private BatteryBox batterybox;
+    private ThreePinConnector threePinConnector;
 
     public String load(int amount) {
         int toLoad = amount;
@@ -52,12 +54,31 @@ public enum BatteryManagement {
         return amount;
     }
 
+    public int maxAmount() {
+        int amount = 0;
+        for (IBattery[] batteryLine : batterybox.getBatteries()) {
+            for (IBattery b : batteryLine) {
+                amount += b.maxCapacity();
+            }
+        }
+
+        return amount;
+    }
+
     public BatteryBox getBatteryBox() {
         return batterybox;
     }
 
     public void setBatteryBox(BatteryBox batterybox) {
         this.batterybox = batterybox;
+    }
+
+    public ThreePinConnector getThreePinConnector() {
+        return threePinConnector;
+    }
+
+    public void setThreePinConnector(ThreePinConnector threePinConnector) {
+        this.threePinConnector = threePinConnector;
     }
 
     public int lookAmountInPercent() {

@@ -6,6 +6,8 @@ import turrets.turretsWithFoam.RoofTurret;
 
 public interface ITesterVisitor {
     void visit(FloorSprayNozzle floorSprayNozzle);
+
     void visit(FrontTurret frontTurret);
+
     void visit(RoofTurret roofTurret);
 }

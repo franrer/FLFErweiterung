@@ -3,12 +3,14 @@ package teil02;
 import driveUnit.electrical.BatteryBox;
 import driveUnit.electrical.BatteryManagement;
 import org.junit.jupiter.api.*;
-import teil2.task03.*;
+import teil2.task03.CellBattery;
+import teil2.task03.IBattery;
 import teil2.task05.LoadingStation;
 import teil2.task05.Pin;
 import teil2.task05.ThreeToOneAdapter;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestTask05 {
@@ -28,7 +30,7 @@ public class TestTask05 {
         batteryManagement=BatteryManagement.INSTANCE;
         batteryManagement.setBatteryBox(batteryBox);
         loadingStation=new LoadingStation(new Pin());
-        threeToOneAdapter=new ThreeToOneAdapter(new Pin(),new Pin(),new Pin(),batteryManagement);
+        threeToOneAdapter = new ThreeToOneAdapter(new Pin(), new Pin(), new Pin(), batteryManagement);
         }
 
 

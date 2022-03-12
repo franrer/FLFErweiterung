@@ -20,11 +20,11 @@ public class TankSensor {
     public void measure(double percent) {
         if (percent <= 10) {
             lessThanTenPercentRemaining();
-        }else if(percent <=25){
+        } else if (percent <= 25) {
             lessThanQuarterRemaining();
-        }else if(percent <=50){
+        } else if (percent <= 50) {
             lessThanHalfRemaining();
-        }else{
+        } else {
             moreThanHalfRemaining();
         }
     }

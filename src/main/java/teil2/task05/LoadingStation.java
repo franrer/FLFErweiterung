@@ -16,6 +16,7 @@ public class LoadingStation implements IElectricLoader {
     public void load() {
         loadable.outsidePinConnect(pin);
     }
+
     public void setEnergyAmount(int energyAmount) {
         pin.setEnergyAmount(energyAmount);
     }

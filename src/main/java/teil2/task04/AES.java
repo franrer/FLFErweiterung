@@ -7,11 +7,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
-public class AES implements IEncryptionStrategy{
-    private  Cipher ecipher;
-    private  Cipher dcipher;
+public class AES implements IEncryptionStrategy {
+    private Cipher ecipher;
+    private Cipher dcipher;
 
-    private  SecretKey key;
+    private SecretKey key;
 
 
     public AES() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {

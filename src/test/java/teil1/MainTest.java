@@ -50,7 +50,8 @@ public class MainTest {
     public void buildComplete() {
         buildTest(flf);
     }
-    public static void buildTest(FLF flf){
+
+    public static void buildTest(FLF flf) {
         //flf
         assertNotNull(flf);
         assertNotNull(flf.getPowerUnit());
@@ -415,7 +416,7 @@ public class MainTest {
             kmh -= kmhChange;
             usage += kmh * usagePerkmh;
         }
-        int maxEnergies = 400000;
+        int maxEnergies = ((DriveUnit) flf.getDriveUnit()).getBatteryManagement().maxAmount();
         assertEquals(maxEnergies - usage, flf.getPowerUnit().getBatteryAmount());
     }
 
@@ -459,7 +460,7 @@ public class MainTest {
         driveIteration(10);
         usage += kmh * usagePerkmh * 10;
         //15
-        int maxEnergies = 400000;
+        int maxEnergies = ((DriveUnit) flf.getDriveUnit()).getBatteryManagement().maxAmount();
         assertEquals(maxEnergies - usage, flf.getPowerUnit().getBatteryAmount());
     }
 

@@ -12,7 +12,7 @@ public class ThreePinConnector {
         this.pin1 = pin1;
         this.pin2 = pin2;
         this.pin3 = pin3;
-        this.batteryManagement=batteryManagement;
+        this.batteryManagement = batteryManagement;
     }
 
     public Pin getPin1() {

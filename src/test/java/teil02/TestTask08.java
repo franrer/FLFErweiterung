@@ -1,19 +1,11 @@
 package teil02;
 
-import driveUnit.electrical.BatteryBox;
-import driveUnit.electrical.BatteryManagement;
 import lights.LedLight;
 import lights.LightColor;
 import lights.Type;
 import mixingUnit.FoamTank;
-import mixingUnit.Tank;
 import mixingUnit.WaterTank;
 import org.junit.jupiter.api.*;
-import teil2.task03.CellBattery;
-import teil2.task03.IBattery;
-import teil2.task05.LoadingStation;
-import teil2.task05.Pin;
-import teil2.task05.ThreeToOneAdapter;
 import teil2.task08.TankLed;
 import teil2.task08.TankSensor;
 
@@ -31,7 +23,7 @@ public class TestTask08 {
     public void setup() {
         TankSensor waterSensor=new TankSensor();
         TankSensor foamSensor=new TankSensor();
-        LedLight temp=new LedLight(2,LightColor.WHITE, Type.SENSORLIGHT);
+        LedLight temp=new LedLight(2, LightColor.WHITE, Type.SENSORLIGHT);
         waterLED=new TankLed(temp);
         temp=new LedLight(2,LightColor.WHITE, Type.SENSORLIGHT);
         foamLED=new TankLed(temp);

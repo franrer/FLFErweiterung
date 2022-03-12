@@ -12,7 +12,8 @@ import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestTask04 {
@@ -78,15 +79,16 @@ public class TestTask04 {
             e.printStackTrace();
         }
     }
+
     public void configTest() {
         FLF flf = new FLF(new FLF.Builder(false));
-        assertEquals(DES.class,flf.getCabin().getOperatorSection().getCcu().getEncryptionStrategy().getClass());
-        CentralConfiguration.instance.encryptionStrategy="AES";
+        assertEquals(DES.class, flf.getCabin().getOperatorSection().getCcu().getEncryptionStrategy().getClass());
+        CentralConfiguration.instance.encryptionStrategy = "AES";
         flf = new FLF(new FLF.Builder(false));
-        assertEquals(AES.class,flf.getCabin().getOperatorSection().getCcu().getEncryptionStrategy().getClass());
-        CentralConfiguration.instance.encryptionStrategy="RSA";
+        assertEquals(AES.class, flf.getCabin().getOperatorSection().getCcu().getEncryptionStrategy().getClass());
+        CentralConfiguration.instance.encryptionStrategy = "RSA";
         flf = new FLF(new FLF.Builder(false));
-        assertEquals(RSA.class,flf.getCabin().getOperatorSection().getCcu().getEncryptionStrategy().getClass());
+        assertEquals(RSA.class, flf.getCabin().getOperatorSection().getCcu().getEncryptionStrategy().getClass());
     }
 
 }

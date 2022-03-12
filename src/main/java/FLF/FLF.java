@@ -35,10 +35,12 @@ import mixingUnit.IMixingUnit;
 import mixingUnit.MixingUnit;
 import teil2.task04.AES;
 import teil2.task04.CentralConfiguration;
-import teil2.task04.IEncryptionStrategy;
 import teil2.task04.RSA;
+import teil2.task05.Pin;
+import teil2.task05.ThreeToOneAdapter;
 import teil2.task08.TankLed;
 import teil2.task08.TankSensor;
+import teil2.task09.Tester;
 import turrets.FloorSprayNozzle;
 import turrets.turretsWithFoam.FrontTurret;
 import turrets.turretsWithFoam.RoofTurret;
@@ -47,13 +49,7 @@ import turrets.turretsWithFoam.Segment;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -435,14 +431,20 @@ public class FLF {
         }
 
         public FLF extension(FLF flf) {
-            DriveUnit driveUnit = (DriveUnit) flf.getDriveUnit();
-            driveUnit.getBatteryManagement().setBatteryBox(new BatteryBox.Builder()
+            //03
+            BatteryManagement management = ((DriveUnit) flf.getDriveUnit()).getBatteryManagement();
+            management.setBatteryBox(new BatteryBox.Builder()
                     .boxWidth(2)
                     .boxLength(2)
                     .batteryWidth(100)
                     .batteryLength(100)
                     .batteryHeight(10)
                     .buildCellBox());
+            //04 bereits weiter oben in Consruktor
+            //05
+            ThreeToOneAdapter threeToOneAdapter = new ThreeToOneAdapter(new Pin(), new Pin(), new Pin(), management);
+            management.setThreePinConnector(threeToOneAdapter);
+            //08
             TankLed tempLight = new TankLed(new LedLight(2, LightColor.WHITE, Type.SENSORLIGHT));
             TankSensor tempSensor = new TankSensor();
             tempSensor.addListener(tempLight);
@@ -453,6 +455,17 @@ public class FLF {
             tempSensor.addListener(tempLight);
             ((MixingUnit) flf.getMixingUnit()).getFoamTank().setSensor(tempSensor);
             flf.getCabin().getOperatorSection().getControlpanel().setFoamLed(tempLight);
+            FrontTurret front = (FrontTurret) flf.getCabin().getDriverSection().getJoystick().getTurret();
+            ;
+            RoofTurret roof = (RoofTurret) flf.getCabin().getOperatorSection().getJoystick().getTurret();
+            //09
+            CCU ccu = flf.getCabin().getDriverSection().getCcu();
+            ccu.addUnitToTest(front);
+            ccu.addUnitToTest(roof);
+            for (FloorSprayNozzle nuzzle : ccu.getFloorSprayNozzle()) {
+                ccu.addUnitToTest(nuzzle);
+            }
+            ccu.setTester(new Tester(ccu, ccu.getFloorSprayNozzle().length));
             return flf;
         }
 
