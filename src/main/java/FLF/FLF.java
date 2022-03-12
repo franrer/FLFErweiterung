@@ -33,6 +33,12 @@ import inputs.turretInputs.RotaryKnob;
 import lights.*;
 import mixingUnit.IMixingUnit;
 import mixingUnit.MixingUnit;
+import teil2.task04.AES;
+import teil2.task04.CentralConfiguration;
+import teil2.task04.IEncryptionStrategy;
+import teil2.task04.RSA;
+import teil2.task08.TankLed;
+import teil2.task08.TankSensor;
 import turrets.FloorSprayNozzle;
 import turrets.turretsWithFoam.FrontTurret;
 import turrets.turretsWithFoam.RoofTurret;
@@ -41,7 +47,13 @@ import turrets.turretsWithFoam.Segment;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -122,7 +134,17 @@ public class FLF {
             ccu = new CCU(driverSection);
 
             try {
-                ccu.setDes(new DES());
+                switch (CentralConfiguration.instance.encryptionStrategy) {
+                    case "DES":
+                        ccu.setEncryptionStrategy(new DES());
+                        break;
+                    case "AES":
+                        ccu.setEncryptionStrategy(new AES());
+                        break;
+                    case "RSA":
+                        ccu.setEncryptionStrategy(new RSA());
+                        break;
+                }
             } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e) {
                 e.printStackTrace();
             }
@@ -131,7 +153,7 @@ public class FLF {
             RFIDChip rfid1 = null;
 
             try {
-                rfid1 = new RFIDChip(ccu.getDes().encrypt("FT-DUS-FLF.FLF-5-Red Adair-6072"));
+                rfid1 = new RFIDChip(ccu.getEncryptionStrategy().encrypt("FT-DUS-FLF.FLF-5-Red Adair-6072"));
             } catch (UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException e) {
                 e.printStackTrace();
             }
@@ -140,7 +162,7 @@ public class FLF {
             RFIDChip rfid2 = null;
 
             try {
-                rfid2 = new RFIDChip(ccu.getDes().encrypt("FT-DUS-FLF.FLF-5-Sam-6072"));
+                rfid2 = new RFIDChip(ccu.getEncryptionStrategy().encrypt("FT-DUS-FLF.FLF-5-Sam-6072"));
             } catch (UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException e) {
                 e.printStackTrace();
             }
@@ -406,6 +428,33 @@ public class FLF {
             return new FLF(this);
         }
 
+        public FLF buildTart2() {
+            FLF flf = new FLF(this);
+            flf = extension(flf);
+            return flf;
+        }
+
+        public FLF extension(FLF flf) {
+            DriveUnit driveUnit = (DriveUnit) flf.getDriveUnit();
+            driveUnit.getBatteryManagement().setBatteryBox(new BatteryBox.Builder()
+                    .boxWidth(2)
+                    .boxLength(2)
+                    .batteryWidth(100)
+                    .batteryLength(100)
+                    .batteryHeight(10)
+                    .buildCellBox());
+            TankLed tempLight = new TankLed(new LedLight(2, LightColor.WHITE, Type.SENSORLIGHT));
+            TankSensor tempSensor = new TankSensor();
+            tempSensor.addListener(tempLight);
+            ((MixingUnit) flf.getMixingUnit()).getWaterTank().setSensor(tempSensor);
+            flf.getCabin().getOperatorSection().getControlpanel().setWaterLed(tempLight);
+            tempLight = new TankLed(new LedLight(2, LightColor.WHITE, Type.SENSORLIGHT));
+            tempSensor = new TankSensor();
+            tempSensor.addListener(tempLight);
+            ((MixingUnit) flf.getMixingUnit()).getFoamTank().setSensor(tempSensor);
+            flf.getCabin().getOperatorSection().getControlpanel().setFoamLed(tempLight);
+            return flf;
+        }
 
     }
 }

@@ -5,7 +5,6 @@ import cabin.driverSection.DriverSection;
 import cabin.driverSection.IDisplay;
 import cabin.driverSection.SpeedDisplay;
 import cabin.operatorSection.OperatorSection;
-import complex1.DES;
 import complex1.Person;
 import driveUnit.IDriveUnit;
 import inputs.buttons.ButtonDoor;
@@ -20,6 +19,7 @@ import lights.Light;
 import lights.Side;
 import lights.Type;
 import mixingUnit.IMixingUnit;
+import teil2.task04.IEncryptionStrategy;
 import teil2.task09.ITesterVisitor;
 import teil2.task09.IUnitToTest;
 import turrets.FloorSprayNozzle;
@@ -42,7 +42,7 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private OperatorSection operatorSection;
     private Light[] lights;
     private FloorSprayNozzle[] floorSprayNozzle;
-    private DES des;
+    private IEncryptionStrategy encryptionStrategy;
     private int code;
     private Person[] users;
     private List<IUnitToTest> unitsToTest;
@@ -69,12 +69,12 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
         this.users = users;
     }
 
-    public DES getDes() {
-        return des;
+    public IEncryptionStrategy getEncryptionStrategy() {
+        return encryptionStrategy;
     }
 
-    public void setDes(DES des) {
-        this.des = des;
+    public void setEncryptionStrategy(IEncryptionStrategy encryptionStrategy) {
+        this.encryptionStrategy = encryptionStrategy;
     }
 
     public int getCode() {
@@ -265,7 +265,7 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
 
         String dec = "";
         try {
-            dec = des.decrypt(s);
+            dec = encryptionStrategy.decrypt(s);
         } catch (UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();
         }

@@ -1,18 +1,16 @@
 package teil2.task03;
 
 public interface IBattery {
-    public void charge(int amount) ;
+    void charge(int amount);
 
+    int emptySpace();
 
-    public int emptySpace() ;
+    int maxCapacity();
 
+    int occupiedSpace();
 
-    public int maxCapacity();
+    void fillToMax();
 
-    public int occupiedSpace();
-
-    public void fillToMax();
-
-    public int takeOut(int amount);
+    int takeOut(int amount);
 
 }

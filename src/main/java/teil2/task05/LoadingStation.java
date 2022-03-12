@@ -1,8 +1,8 @@
 package teil2.task05;
 
 public class LoadingStation implements IElectricLoader {
-    Pin pin;
-    IOnePinLoadable loadable;
+    private Pin pin;
+    private IOnePinLoadable loadable;
 
     public LoadingStation(Pin pin) {
         this.pin = pin;
@@ -17,7 +17,7 @@ public class LoadingStation implements IElectricLoader {
         loadable.outsidePinConnect(pin);
     }
     public void setEnergyAmount(int energyAmount) {
-        pin.energyAmount = energyAmount;
+        pin.setEnergyAmount(energyAmount);
     }
 
     public Pin getPin() {

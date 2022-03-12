@@ -3,10 +3,10 @@ package teil2.task05;
 import driveUnit.electrical.BatteryManagement;
 
 public class ThreePinConnector {
-    Pin pin1;
-    Pin pin2;
-    Pin pin3;
-    BatteryManagement batteryManagement;
+    protected Pin pin1;
+    protected Pin pin2;
+    protected Pin pin3;
+    private BatteryManagement batteryManagement;
 
     public ThreePinConnector(Pin pin1, Pin pin2, Pin pin3, BatteryManagement batteryManagement) {
         this.pin1 = pin1;

@@ -3,7 +3,7 @@ package teil2.task05;
 import driveUnit.electrical.BatteryManagement;
 
 public class ThreeToOneAdapter extends ThreePinConnector implements IElectricLoader, IOnePinLoadable{
-    Pin outsidePin;
+    private Pin outsidePin;
     public ThreeToOneAdapter(Pin pin1, Pin pin2, Pin pin3, BatteryManagement batteryManagement) {
         super(pin1, pin2, pin3, batteryManagement);
     }

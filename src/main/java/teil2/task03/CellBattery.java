@@ -8,6 +8,9 @@ public class CellBattery extends SubCell implements IBattery {
             unitList[i]=new MainCell(amountSubCells,amountCells);
         }
     }
+    public CellBattery(MainCell[] mainCells) {
+        unitList=mainCells;
+    }
 
     @Override
     public void charge(int amount) {

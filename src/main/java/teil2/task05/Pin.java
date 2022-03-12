@@ -1,7 +1,7 @@
 package teil2.task05;
 
 public class Pin {
-    int energyAmount;
+    private int energyAmount;
 
     public Pin() {
         this.energyAmount = 0;

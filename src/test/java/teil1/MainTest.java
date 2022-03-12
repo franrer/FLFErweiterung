@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MainTest {
-    private FLF flf;
+    protected FLF flf;
 
     @BeforeEach
     public void setup() {

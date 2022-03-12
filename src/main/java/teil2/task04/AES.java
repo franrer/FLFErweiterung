@@ -1,6 +1,4 @@
-package complex1;
-
-import teil2.task04.IEncryptionStrategy;
+package teil2.task04;
 
 import javax.crypto.*;
 import java.io.UnsupportedEncodingException;
@@ -9,20 +7,19 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
-public class DES implements IEncryptionStrategy {
+public class AES implements IEncryptionStrategy{
+    private  Cipher ecipher;
+    private  Cipher dcipher;
 
-    private static Cipher ecipher;
-    private static Cipher dcipher;
-
-    private static SecretKey key;
+    private  SecretKey key;
 
 
-    public DES() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+    public AES() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
 
-        key = KeyGenerator.getInstance("DES").generateKey();
+        key = KeyGenerator.getInstance("AES").generateKey();
 
-        ecipher = Cipher.getInstance("DES");
-        dcipher = Cipher.getInstance("DES");
+        ecipher = Cipher.getInstance("AES");
+        dcipher = Cipher.getInstance("AES");
 
         ecipher.init(Cipher.ENCRYPT_MODE, key);
         dcipher.init(Cipher.DECRYPT_MODE, key);
@@ -48,8 +45,5 @@ public class DES implements IEncryptionStrategy {
         byte[] dec = Base64.getDecoder().decode(utf8);
 
         return new String(dcipher.doFinal(dec));
-
     }
-
-
 }

@@ -56,6 +56,10 @@ public abstract class Tank {
         return sensor;
     }
 
+    public void setSensor(TankSensor sensor) {
+        this.sensor = sensor;
+    }
+
     public int takeOut(int amount) {
         int[] pos = getPositionFirstEmpty();
         int x = pos[0];

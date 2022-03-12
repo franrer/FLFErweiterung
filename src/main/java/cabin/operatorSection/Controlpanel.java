@@ -3,6 +3,8 @@ package cabin.operatorSection;
 import inputs.switches.*;
 import lights.Side;
 import lights.Type;
+import teil2.task08.TankLed;
+import teil2.task08.TankSensor;
 
 public class Controlpanel {
 
@@ -10,6 +12,8 @@ public class Controlpanel {
     private SelfProtection selfProtection;
     private MotorSwitch motorSwitch;
     private OperatorSection operatorSection;
+    private TankLed waterLed;
+    private TankLed foamLed;
 
     public Controlpanel() {
 
@@ -89,6 +93,22 @@ public class Controlpanel {
 
     public void setMotorSwitch(MotorSwitch motorSwitch) {
         this.motorSwitch = motorSwitch;
+    }
+
+    public TankLed getWaterLed() {
+        return waterLed;
+    }
+
+    public void setWaterLed(TankLed waterLed) {
+        this.waterLed = waterLed;
+    }
+
+    public TankLed getFoamLed() {
+        return foamLed;
+    }
+
+    public void setFoamLed(TankLed foamLed) {
+        this.foamLed = foamLed;
     }
 
     public void turnSwitch(Switch s) {
