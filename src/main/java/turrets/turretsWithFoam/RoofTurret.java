@@ -2,7 +2,6 @@ package turrets.turretsWithFoam;
 
 import teil2.task09.ITesterVisitor;
 import teil2.task09.IUnitToTest;
-import turrets.Turret;
 
 import java.util.ArrayList;
 

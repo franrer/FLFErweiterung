@@ -18,7 +18,7 @@ public class LedLight extends Light {
             leds = null;
     }
 
-    public LedLight(int numOfLeds,  LightColor color,  Type type) {
+    public LedLight(int numOfLeds, LightColor color, Type type) {
         super(null, null, color, null, type);
         if (numOfLeds == 1 || numOfLeds == 2 || numOfLeds == 4) {
             leds = new LED[numOfLeds];
@@ -29,8 +29,8 @@ public class LedLight extends Light {
             leds = null;
     }
 
-    public void setColor(LightColor color){
-        this.color=color;
+    public void setColor(LightColor color) {
+        this.color = color;
     }
 
 

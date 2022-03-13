@@ -10,12 +10,10 @@ public class SwitchOn implements ICommands {
         this.unit = unit;
     }
 
-    //TODO: make the type distinction here and give the functions directly to the central unit
-    @Override
     public void execute(SwitchType type) {
         switch (type) {
             case electroMotor -> unit.changeMotorState();
-            case floorSprayNozzles -> unit.changeFloorNozzleSpraysState();
+            case floorSprayNozzles -> unit.changeFloorSpraysNozzleState();
             default -> unit.changeLightState(type);
         }
     }

@@ -21,17 +21,17 @@ public class TestTask05 {
 
     @BeforeEach
     public void setup() {
-        IBattery[][] batteries=new IBattery[2][2];
+        IBattery[][] batteries = new IBattery[2][2];
         batteries[0][0] = new CellBattery(100, 100, 10);
         batteries[0][1] = new CellBattery(100, 100, 10);
         batteries[1][0] = new CellBattery(100, 100, 10);
         batteries[1][1] = new CellBattery(100, 100, 10);
-        BatteryBox batteryBox=new BatteryBox(batteries);
-        batteryManagement=BatteryManagement.INSTANCE;
+        BatteryBox batteryBox = new BatteryBox(batteries);
+        batteryManagement = BatteryManagement.INSTANCE;
         batteryManagement.setBatteryBox(batteryBox);
-        loadingStation=new LoadingStation(new Pin());
+        loadingStation = new LoadingStation(new Pin());
         threeToOneAdapter = new ThreeToOneAdapter(new Pin(), new Pin(), new Pin(), batteryManagement);
-        }
+    }
 
 
     @Test
@@ -39,8 +39,8 @@ public class TestTask05 {
     public void buildComplete() {
         assertNotNull(batteryManagement);
         assertNotNull(batteryManagement.getBatteryBox());
-        for(IBattery[] battery:batteryManagement.getBatteryBox().getBatteries()){
-            for(IBattery cellBattery:battery){
+        for (IBattery[] battery : batteryManagement.getBatteryBox().getBatteries()) {
+            for (IBattery cellBattery : battery) {
                 TestTask03.cellBatteryTest(cellBattery);
             }
         }
@@ -59,13 +59,13 @@ public class TestTask05 {
         loadingStation.setEnergyAmount(1000);
         loadingStation.setLoadable(threeToOneAdapter);
         loadingStation.load();
-        assertEquals(threeToOneAdapter,loadingStation.getLoadable());
-        assertEquals(batteryManagement,threeToOneAdapter.getBatteryManagement());
-        assertEquals(1000,loadingStation.getPin().getEnergyAmount());
-        assertEquals(300,threeToOneAdapter.getPin1().getEnergyAmount());
-        assertEquals(300,threeToOneAdapter.getPin2().getEnergyAmount());
-        assertEquals(400,threeToOneAdapter.getPin3().getEnergyAmount());
-        assertEquals(1000,batteryManagement.lookAmount());
+        assertEquals(threeToOneAdapter, loadingStation.getLoadable());
+        assertEquals(batteryManagement, threeToOneAdapter.getBatteryManagement());
+        assertEquals(1000, loadingStation.getPin().getEnergyAmount());
+        assertEquals(300, threeToOneAdapter.getPin1().getEnergyAmount());
+        assertEquals(300, threeToOneAdapter.getPin2().getEnergyAmount());
+        assertEquals(400, threeToOneAdapter.getPin3().getEnergyAmount());
+        assertEquals(1000, batteryManagement.lookAmount());
     }
 
 

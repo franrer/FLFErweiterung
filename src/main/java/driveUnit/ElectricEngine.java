@@ -2,7 +2,8 @@ package driveUnit;
 
 import com.google.common.eventbus.Subscribe;
 import inputs.switches.MotorSwitch;
-import teil2.task02.*;
+import teil2.task02.ElectricMotorEvent;
+import teil2.task02.Subscriber;
 import teil2.task05.LoadingStation;
 
 public class ElectricEngine extends Subscriber {
@@ -10,7 +11,6 @@ public class ElectricEngine extends Subscriber {
     private IPowerUnit powerUnit;
     private double consumption;   //12.5
     private boolean isStarted;
-    private LoadingStation box;
 
 
     public ElectricEngine() {

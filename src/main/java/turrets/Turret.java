@@ -4,11 +4,9 @@ import teil2.task02.Subscriber;
 
 public abstract class Turret extends Subscriber {
 
-    protected static Turret active;
-    protected static Turret inactive;
     protected boolean isActive;
     protected int turretWater;
-    private int value;
+
 
     public Turret(int turretWater) {
         this.turretWater = turretWater;

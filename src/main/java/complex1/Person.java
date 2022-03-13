@@ -19,6 +19,7 @@ public class Person {
     public OperatorSection getOperatorSection() {
         return operatorSection;
     }
+
     private OperatorSection operatorSection;
 
     public String getName() {
@@ -26,4 +27,4 @@ public class Person {
     }
 
 
-    }
+}

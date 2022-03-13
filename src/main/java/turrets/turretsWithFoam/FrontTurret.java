@@ -1,15 +1,11 @@
 package turrets.turretsWithFoam;
 
-import teil2.task01.*;
 import teil2.task09.ITesterVisitor;
 import teil2.task09.IUnitToTest;
-import turrets.Turret;
 
 public class FrontTurret extends TurretWithFoam implements IUnitToTest {
-    private Turret steps;
     private int position;
-    private int value;
-    private Turret cannonState;
+
 
     public FrontTurret() {
         super(500);

@@ -1,14 +1,12 @@
 package ccu;
 
-import com.google.common.eventbus.EventBus;
 import cabin.driverSection.BatteryDisplay;
 import cabin.driverSection.DriverSection;
 import cabin.driverSection.IDisplay;
 import cabin.driverSection.SpeedDisplay;
 import cabin.operatorSection.OperatorSection;
+import com.google.common.eventbus.EventBus;
 import complex1.Person;
-import complex2.IntelligentJoystick;
-import driveUnit.ElectricEngine;
 import driveUnit.IDriveUnit;
 import inputs.buttons.ButtonDoor;
 import inputs.buttons.IButton;
@@ -18,16 +16,15 @@ import inputs.driverInputs.IPedal;
 import inputs.switches.*;
 import inputs.turretInputs.ButtonJoy;
 import inputs.turretInputs.Taster;
-import lights.*;
-import mixingUnit.FoamTank;
+import lights.Light;
+import lights.Side;
+import lights.Type;
 import mixingUnit.IMixingUnit;
-import mixingUnit.WaterTank;
+import teil2.task02.*;
 import teil2.task04.IEncryptionStrategy;
-import teil2.task05.LoadingStation;
+import teil2.task06.SwitchType;
 import teil2.task09.ITesterVisitor;
 import teil2.task09.IUnitToTest;
-import teil2.task06.SwitchType;
-import teil2.task02.*;
 import teil2.task09.Tester;
 import turrets.FloorSprayNozzle;
 import turrets.turretsWithFoam.FrontTurret;
@@ -44,8 +41,9 @@ import java.util.List;
 
 public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, ITesterVisitor {
 
+    private final EventBus eventBus;
     private Light[] lights;
-    private HashMap<SwitchType, Light[]>light;
+    private HashMap<SwitchType, Light[]> light;
     private IMixingUnit mixingUnit;
     private IDriveUnit driveUnit;
     private DriverSection driverSection;
@@ -55,27 +53,11 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private int code;
     private Person[] users;
     private List<IUnitToTest> unitsToTest;
-
-
-    private final EventBus eventBus;
-
-    private WaterTank water;
-    private FoamTank foam;
-    //private Communicator mixer = new Communicator(water, foam);
-    private FrontTurret frontCannon;
-    private RoofTurret headCannon;
-    private String[] association;
-
-
     private Tester tester;
 
     public CCU(DriverSection driverSection) {
-        this.mixingUnit = mixingUnit;
-        this.driveUnit = driveUnit;
         this.driverSection = driverSection;
-        this.operatorSection = operatorSection;
-        this.lights = lights;
-        eventBus=new EventBus("event");
+        eventBus = new EventBus("event");
         floorSprayNozzle = new FloorSprayNozzle[7];
         for (int i = 0; i < 7; i++) {
             floorSprayNozzle[i] = new FloorSprayNozzle(this);
@@ -84,7 +66,7 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
         unitsToTest = new ArrayList<>();
     }
 
-    public void addSubscriber(Subscriber subscriber){
+    public void addSubscriber(Subscriber subscriber) {
         eventBus.register(subscriber);
     }
 
@@ -158,28 +140,29 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
 
     public void turnSwitch(Switch s) {
 
-        if (s instanceof LightSwitch) {
-            Type type = ((LightSwitch) s).getType();
-
-            for (Light l : lights) {
-                if (l.getType() == type && type != Type.SPOTLIGHT) {
-
-                    l.onOff();
-                }
+        if (s instanceof LightSwitch sw) {
+            Type type = sw.getType();
+            if (type == Type.BLUELIGHT) {
+                eventBus.post(new BlueLightsEvent());
+            } else if (type == Type.WARNINGLIGHT) {
+                eventBus.post(new WarningLightEvent());
             }
         }
 
-        if (s instanceof LightSwitchArea) {
+        if (s instanceof LightSwitchArea sa) {
             Type type = ((LightSwitchArea) s).getType();
             Side side = ((LightSwitchArea) s).getSide();
 
-            for (Light l : lights) {
-                if (l.getType() == type) {
-                    if (l.getSide() == side)
-                        l.onOff();
-                    else if (side == Side.SIDE)
-                        if (l.getSide() == Side.LEFT || l.getSide() == Side.RIGHT || l.getSide() == Side.SIDE)
-                            l.onOff();
+
+            if (sa.getType() == Type.SPOTLIGHT) {
+                if (sa.getSide() == Side.FRONT) {
+                    eventBus.post(new FrontLightsEvent());
+                } else if (side == Side.ROOF) {
+                    eventBus.post(new RoofLightsEvent());
+                } else if (side == Side.SIDE) {
+                    if (sa.getSide() == Side.LEFT || sa.getSide() == Side.RIGHT || sa.getSide() == Side.SIDE) {
+                        eventBus.post(new SideLightsEvent());
+                    }
                 }
             }
         } else if (s instanceof MotorSwitch) {
@@ -333,14 +316,13 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
         return unitsToTest;
     }
 
-    public void setTester(Tester tester) {
-        this.tester = tester;
-    }
-
     public Tester getTester() {
         return tester;
     }
 
+    public void setTester(Tester tester) {
+        this.tester = tester;
+    }
 
     public void changeLightState(SwitchType switchType) {
         switch (switchType) {
@@ -354,24 +336,11 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     }
 
     public void changeMotorState() {
+        eventBus.post(new ElectricMotorEvent());
     }
 
     public void changeFloorSpraysNozzleState() {
-    }
-
-    public void changeFloorNozzleSpraysState() {
-    }
-
-    public Light[] getHeadFrontLights() {
-        return this.light.get(SwitchType.headLightsFront);
-    }
-
-    public Light[] getHeadRoofLights() {
-        return this.light.get(SwitchType.headLightsRoof);
-    }
-
-    public Light[] getSideLights() {
-        return this.light.get(SwitchType.SideLights);
+        eventBus.post(new SelfProtectionEvent());
     }
 
 }

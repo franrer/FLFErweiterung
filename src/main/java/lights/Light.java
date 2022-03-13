@@ -1,8 +1,8 @@
 package lights;
 
 import ccu.CCU;
-import teil2.task02.*;
 import com.google.common.eventbus.Subscribe;
+import teil2.task02.*;
 
 public class Light extends Subscriber {
 
@@ -22,24 +22,6 @@ public class Light extends Subscriber {
         this.type = type;
     }
 
-    public Light(Side side, int i) {
-        super();
-    }
-
-    public Light(Position position) {
-        super();
-    }
-
-    public Light(Type headlights, int i) {
-        super();
-    }
-
-    public Light(Side side) {
-        super();
-    }
-
-    public Light(Side side, Position position){ super();}
-
     public CCU getCcu() {
         return ccu;
     }
@@ -48,11 +30,11 @@ public class Light extends Subscriber {
         this.ccu = ccu;
     }
 
-    public  boolean isOn() {
+    public boolean isOn() {
         return isOn;
     }
 
-    public  void setOn(boolean on) {
+    public void setOn(boolean on) {
         isOn = on;
     }
 
@@ -74,52 +56,41 @@ public class Light extends Subscriber {
 
     @Subscribe
     public void receive(BlueLightsEvent event) {
-        System.out.println("receive Bluelight");
-        if (this.isOn()) {
+        if (getType() == Type.BLUELIGHT) {
             onOff();
-        } else {
-            isOn();
         }
     }
 
     @Subscribe
     public void receive(WarningLightEvent event) {
-        if (isOn()) {
+        if (getType() == Type.WARNINGLIGHT) {
             onOff();
-        } else {
-            isOn();
         }
     }
 
+
     @Subscribe
     public void receive(SideLightsEvent event) {
-        if (this.isOn()) {
-            onOff();
-        } else {
-            isOn();
+        if (getType() == Type.SPOTLIGHT) {
+            if (getSide() == Side.LEFT || getSide() == Side.RIGHT || getSide() == Side.SIDE)
+                onOff();
         }
     }
 
     @Subscribe
     public void receive(RoofLightsEvent event) {
-        if (this.position == Position.TOP) {
-            if (isOn()) {
-                this.onOff();
-            } else {
-                this.isOn();
-            }
+        if (getType() == Type.SPOTLIGHT) {
+            if (getSide() == Side.ROOF)
+                onOff();
         }
-
     }
+
+
     @Subscribe
     public void receive(FrontLightsEvent event) {
-        if (this.side == Side.FRONT) {
-            if (isOn()) {
-                this.onOff();
-            } else {
-                this.isOn();
-            }
+        if (getType() == Type.SPOTLIGHT) {
+            if (getSide() == Side.FRONT)
+                onOff();
         }
-
     }
 }

@@ -5,8 +5,6 @@ import teil2.task06.IButtonState;
 
 public abstract class Switch {
 
-    protected IButtonState state;
-    protected Object switchTypeOperation;
     private boolean isOn;
     private Controlpanel controlpanel;
 

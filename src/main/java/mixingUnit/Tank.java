@@ -11,9 +11,9 @@ public abstract class Tank {
         capacity = new boolean[length][width][height];
     }
 
-    public Tank(int length, int width, int height,TankSensor tankSensor) {
+    public Tank(int length, int width, int height, TankSensor tankSensor) {
         capacity = new boolean[length][width][height];
-        this.sensor=tankSensor;
+        this.sensor = tankSensor;
     }
 
     public Tank() {
@@ -31,8 +31,8 @@ public abstract class Tank {
             if (x == capacity.length - 1) y = ++y % capacity[0].length;
             x = ++x % capacity.length;
         }
-        if(sensor!=null){
-            sensor.measure(((double)occupiedSpace()/(double)maxCapacity())*100);
+        if (sensor != null) {
+            sensor.measure(((double) occupiedSpace() / (double) maxCapacity()) * 100);
         }
     }
 
@@ -83,8 +83,8 @@ public abstract class Tank {
             x--;
             capacity[x][y][z] = false;
         }
-        if(sensor!=null){
-            sensor.measure(((double)occupiedSpace()/(double)maxCapacity())*100);
+        if (sensor != null) {
+            sensor.measure(((double) occupiedSpace() / (double) maxCapacity()) * 100);
         }
         return amount;
 

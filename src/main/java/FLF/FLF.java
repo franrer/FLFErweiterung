@@ -63,9 +63,7 @@ public class FLF {
     private IMixingUnit mixingUnit;
     private String name;
     private Person[] users;
-    private DriverSection driverSection = new DriverSection();
-    private CCU centralUnit = new CCU(driverSection);
-    private BatteryBox box;
+
 
     public FLF(Builder builder) {
 
@@ -111,12 +109,6 @@ public class FLF {
         this.lights = lights;
     }
 
-    public CCU getCCU() {
-        return centralUnit;
-    }
-    public BatteryBox getBatteries() {
-        return box;
-    }
 
     public static class Builder {
 
@@ -250,6 +242,12 @@ public class FLF {
             busDoorRight.setButtonDoor(new ButtonDoor(busDoorRight));
             cabin.setBusDoorRight(busDoorRight);
 
+            for (Light l : ccu.getLights()) {
+                ccu.addSubscriber(l);
+            }
+            for (ElectricEngine e : ((DriveUnit) driveUnit).getEngines()) {
+                ccu.addSubscriber(e);
+            }
 
         }
 
@@ -429,6 +427,7 @@ public class FLF {
             return driveUnit;
 
         }
+
 
         public FLF build() {
             return new FLF(this);

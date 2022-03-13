@@ -6,7 +6,7 @@ public enum PortConfiguration {
     public final String nameOfJar = "signedjar";
     public final String userDirectory = System.getProperty("user.dir");
     public final String fileSeparator = System.getProperty("file.separator");
-    public final String pathToComponent = userDirectory + fileSeparator + "src" + fileSeparator + "main" + fileSeparator + "java"+fileSeparator + "teil2"+fileSeparator + "task01";
+    public final String pathToComponent = userDirectory + fileSeparator + "src" + fileSeparator + "main" + fileSeparator + "java" + fileSeparator + "teil2" + fileSeparator + "task01";
     public final String pathToJarFolder = pathToComponent + fileSeparator + nameOfJarFolder + fileSeparator + "jar" + fileSeparator;
 
     public final String pathToJar = pathToJarFolder + nameOfJar + ".jar";

@@ -21,16 +21,16 @@ public class TestTask08 {
 
     @BeforeEach
     public void setup() {
-        TankSensor waterSensor=new TankSensor();
-        TankSensor foamSensor=new TankSensor();
-        LedLight temp=new LedLight(2, LightColor.WHITE, Type.SENSORLIGHT);
-        waterLED=new TankLed(temp);
-        temp=new LedLight(2,LightColor.WHITE, Type.SENSORLIGHT);
-        foamLED=new TankLed(temp);
+        TankSensor waterSensor = new TankSensor();
+        TankSensor foamSensor = new TankSensor();
+        LedLight temp = new LedLight(2, LightColor.WHITE, Type.SENSORLIGHT);
+        waterLED = new TankLed(temp);
+        temp = new LedLight(2, LightColor.WHITE, Type.SENSORLIGHT);
+        foamLED = new TankLed(temp);
         waterSensor.addListener(waterLED);
         foamSensor.addListener(foamLED);
-        foamTank=new FoamTank(10,10,10,foamSensor);
-        waterTank=new WaterTank(10,10,10,waterSensor);
+        foamTank = new FoamTank(10, 10, 10, foamSensor);
+        waterTank = new WaterTank(10, 10, 10, waterSensor);
     }
 
 
@@ -55,26 +55,27 @@ public class TestTask08 {
         for (int i = 100; i > 0; i--) {
             foamTank.takeOut(foamTank.maxCapacity() / 100);
             waterTank.takeOut(waterTank.maxCapacity() / 100);
-            tankLedTest(((double)foamTank.occupiedSpace()/ (double)foamTank.maxCapacity())*100,foamLED );
-            tankLedTest(((double)waterTank.occupiedSpace()/ (double)waterTank.maxCapacity())*100,waterLED );
+            tankLedTest(((double) foamTank.occupiedSpace() / (double) foamTank.maxCapacity()) * 100, foamLED);
+            tankLedTest(((double) waterTank.occupiedSpace() / (double) waterTank.maxCapacity()) * 100, waterLED);
         }
     }
-        public void tankLedTest(double percent,TankLed led){
-            if (percent <= 10) {
-                assertTrue(led.getLed().isOn());
-                assertEquals(LightColor.RED, led.getLed().getColor());
-            } else if (percent <= 25) {
-                assertTrue(led.getLed().isOn());
-                assertEquals(LightColor.ORANGE, led.getLed().getColor());
 
-            } else if (percent <= 50) {
-                assertTrue(led.getLed().isOn());
-                assertEquals(LightColor.YELLOW, led.getLed().getColor());
+    public void tankLedTest(double percent, TankLed led) {
+        if (percent <= 10) {
+            assertTrue(led.getLed().isOn());
+            assertEquals(LightColor.RED, led.getLed().getColor());
+        } else if (percent <= 25) {
+            assertTrue(led.getLed().isOn());
+            assertEquals(LightColor.ORANGE, led.getLed().getColor());
 
-            } else {
-                assertFalse(led.getLed().isOn());
-                assertEquals(LightColor.WHITE, led.getLed().getColor());
+        } else if (percent <= 50) {
+            assertTrue(led.getLed().isOn());
+            assertEquals(LightColor.YELLOW, led.getLed().getColor());
 
-            }
+        } else {
+            assertFalse(led.getLed().isOn());
+            assertEquals(LightColor.WHITE, led.getLed().getColor());
+
         }
+    }
 }

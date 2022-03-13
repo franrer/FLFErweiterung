@@ -5,7 +5,7 @@ import cabin.driverSection.BatteryDisplay;
 public class LoadingStation implements IElectricLoader {
     private Pin pin;
     private IOnePinLoadable loadable;
-    private BatteryDisplay batterystatus;
+
 
     public LoadingStation(Pin pin) {
         this.pin = pin;
@@ -32,7 +32,4 @@ public class LoadingStation implements IElectricLoader {
         return loadable;
     }
 
-    public Object getStatus() {
-        return this.batterystatus;
-    }
 }

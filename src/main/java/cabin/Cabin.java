@@ -4,7 +4,6 @@ import cabin.driverSection.DriverSection;
 import cabin.operatorSection.OperatorSection;
 import inputs.buttons.IButton;
 import mixingUnit.FoamTank;
-import mixingUnit.WaterTank;
 
 public class Cabin {
 
@@ -14,7 +13,6 @@ public class Cabin {
     private BusDoor busDoorLeft;
     private BusDoor busDoorRight;
     private Seat seats;
-    private FoamTank foam;
 
 
     public Cabin(DriverSection driverSection, OperatorSection operatorSection) {

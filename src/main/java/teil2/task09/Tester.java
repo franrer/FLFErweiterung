@@ -9,7 +9,6 @@ import inputs.turretInputs.RotaryKnob;
 import turrets.FloorSprayNozzle;
 import turrets.turretsWithFoam.FrontTurret;
 import turrets.turretsWithFoam.RoofTurret;
-import turrets.turretsWithFoam.TurretWithFoam;
 
 public class Tester {
     private boolean frontTurretTestResult;
@@ -69,7 +68,7 @@ public class Tester {
     }
 
     private void useTurret(AbstractJoystick joystick, int presses, RotaryKnob rotaryKnob, int turns, int iteration) {
-        boolean active=joystick.getTurret().isActive();
+        boolean active = joystick.getTurret().isActive();
         if (joystick instanceof Joystick joy) {
             if (!active) {
                 joy.getButtonLeft().press();
@@ -88,8 +87,8 @@ public class Tester {
                 joy.getTaster().press();
             }
         }
-        if(!active){
-            ((Joystick)joystick).getButtonLeft().press();
+        if (!active) {
+            ((Joystick) joystick).getButtonLeft().press();
         }
 
     }

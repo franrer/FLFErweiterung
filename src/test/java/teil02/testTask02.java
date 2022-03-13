@@ -1,17 +1,17 @@
 package teil02;
 
 import FLF.FLF;
-import cabin.Seat;
-import cabin.driverSection.DriverSection;
+import cabin.operatorSection.Controlpanel;
 import ccu.CCU;
-import complex1.Person;
-import org.junit.jupiter.api.*;
-import teil2.task02.*;
 import lights.Light;
-import lights.LED;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import teil2.task06.SwitchType;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class testTask02 {
@@ -23,53 +23,60 @@ public class testTask02 {
     public void setup() {
         flf = new FLF(new FLF.Builder(false));
     }
-   // public void set(){ ccu = new CCU(new CCU(turnSwitch));}
 
     @Test
     public void task02() {
-        Seat seat = flf.getCabin().getOperatorSection().getSeat();;
-        {
+        flf.getCabin().getDriverSection().pressSwitch(SwitchType.electroMotor);
+        assertFalse(flf.getDriveUnit().getMotorState());
+        flf.getCabin().getDriverSection().pressSwitch(SwitchType.electroMotor);
+        assertFalse(flf.getDriveUnit().getMotorState());
+        lightSetup(true, true, true, true, true);
+        lightState(true, true, true, true, true);
+        lightSetup(true, true, true, true, true);
+        lightState(false, false, false, false, false);
+    }
 
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.electroMotor);
-            for (int i = 0; i < 2; i++) {
-                assertFalse(flf.getDriveUnit().getMotorState());
-            }
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.electroMotor);
-            for (int i = 0; i < 2; i++) {
-                assertFalse(flf.getDriveUnit().getMotorState());
-            }
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.warningLights);
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.BlueLights);
-           // ccu.turnSwitch(true);
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.warningLights);
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.BlueLights);
-            //ccu.turnSwitch(false);
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.headLightsFront);
-            for (int i = 0; i < 2; i++) {
-                assertTrue(flf.getCCU().getHeadFrontLights()[i].isOn());
-            }
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.headLightsFront);
-            for (int i = 0; i < 2; i++) {
-                assertFalse(flf.getCCU().getHeadFrontLights()[i].isOn());
-            }
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.headLightsRoof);
-            for (int i = 0; i < 2; i++) {
-                assertTrue(flf.getCCU().getHeadRoofLights()[i].isOn());
-            }
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.headLightsRoof);
-            for (int i = 0; i < 2; i++) {
-                assertFalse(flf.getCCU().getHeadRoofLights()[i].isOn());
-            }
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.SideLights);
-            for (int i = 0; i < 2; i++) {
-                assertTrue(flf.getCCU().getSideLights()[i].isOn());
-            }
-            flf.getCabin().getDriverSection().pressSwitch(SwitchType.SideLights);
-            for (int i = 0; i < 2; i++) {
-                assertFalse(flf.getCCU().getSideLights()[i].isOn());
+    private void lightState(boolean roofLight, boolean sideLight, boolean frontLight, boolean warningLight, boolean blueLight) {
+        for (Light l : flf.getLights()) {
+            switch (l.getType()) {
+                case BLUELIGHT -> assertEquals(blueLight, l.isOn());
+                case WARNINGLIGHT -> assertEquals(warningLight, l.isOn());
+                case SPOTLIGHT -> {
+                    switch (l.getSide()) {
+                        case ROOF -> assertEquals(roofLight, l.isOn());
+                        case FRONT -> assertEquals(frontLight, l.isOn());
+                        case LEFT, RIGHT, SIDE -> assertEquals(sideLight, l.isOn());
+                        default -> {
+                        }
+                    }
+                }
             }
         }
-        
+        Controlpanel p = flf.getCabin().getOperatorSection().getControlpanel();
+        assertEquals(blueLight, p.getBlueLightSwitch().isOn());
+        assertEquals(warningLight, p.getWarningLightSwitch().isOn());
+        assertEquals(frontLight, p.getFrontLightSwitch().isOn());
+        assertEquals(sideLight, p.getSideLightSwitch().isOn());
+        assertEquals(roofLight, p.getRoofLightSwitch().isOn());
     }
+
+    private void lightSetup(boolean roofLight, boolean sideLight, boolean frontLight, boolean warningLight, boolean blueLight) {
+        Controlpanel p = flf.getCabin().getOperatorSection().getControlpanel();
+        if (blueLight)
+            p.getBlueLightSwitch().turnSwitch();
+
+        if (warningLight)
+            p.getWarningLightSwitch().turnSwitch();
+
+        if (frontLight)
+            p.getFrontLightSwitch().turnSwitch();
+
+        if (sideLight)
+            p.getSideLightSwitch().turnSwitch();
+
+        if (roofLight)
+            p.getRoofLightSwitch().turnSwitch();
     }
+
+}
 

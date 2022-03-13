@@ -4,13 +4,13 @@ import ccu.CCU;
 import teil2.task07.SwitchOff;
 import teil2.task07.SwitchOn;
 
-public abstract class Switch {
+public class OperatorButton {
     protected SwitchType switchTypeOperation;
     protected IButtonState state;
     protected SwitchOn on;
     protected SwitchOff off;
 
-    Switch(SwitchType type, CCU unit) {
+    public OperatorButton(SwitchType type, CCU unit) {
         this.switchTypeOperation = type;
         this.state = new OffState();
         this.on = new SwitchOn(unit);
@@ -18,7 +18,14 @@ public abstract class Switch {
 
     }
 
-    public abstract void buttonPress();
+    public void buttonPress() {
+        this.state.switchState(this);
+        if (this.state instanceof OnState) {
+            this.on.execute(this.switchTypeOperation);
+        } else {
+            this.off.execute(this.switchTypeOperation);
+        }
+    }
 
     public SwitchType getSwitchTypeOperation() {
         return switchTypeOperation;
@@ -28,9 +35,7 @@ public abstract class Switch {
         this.state = state;
     }
 
-    public boolean getState() {
-        return !(this.state instanceof OffState);
+    public IButtonState getState() {
+        return state;
     }
-
-    public abstract void pressButton();
 }
