@@ -32,11 +32,11 @@ public class testTask02 {
 
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.electroMotor);
             for (int i = 0; i < 2; i++) {
-                assertFalse(flf.getCCU().getMotors().isStarted());
+                assertFalse(flf.getDriveUnit().getMotorState());
             }
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.electroMotor);
             for (int i = 0; i < 2; i++) {
-                assertFalse(flf.getCCU().getMotors().isStarted());
+                assertFalse(flf.getDriveUnit().getMotorState());
             }
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.warningLights);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.BlueLights);

@@ -22,16 +22,16 @@ public class TestTask07 {
     @Test
     public void Task07()
     {
-        assertFalse(flf.getCCU().getMotors().isStarted());
-        assertFalse(flf.getCCU().getMotors().isStarted());
+        assertFalse(flf.getDriveUnit().getMotorState());
+        assertFalse(flf.getDriveUnit().getMotorState());
         flf.getCabin().getSeats();
         flf.getCabin().getSeats().pressSwitch(SwitchType.electroMotor);
         for (int i = 0; i < 2; i++) {
-            assertFalse(flf.getCCU().getMotors().isStarted());
+            assertFalse(flf.getDriveUnit().getMotorState());
         }
         flf.getCabin().getSeats().pressSwitch(SwitchType.electroMotor);
         for (int i = 0; i < 2; i++) {
-            assertFalse(flf.getCCU().getMotors().isStarted());
+            assertFalse(flf.getDriveUnit().getMotorState());
         }
     }
 }

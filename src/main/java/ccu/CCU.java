@@ -62,14 +62,10 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private WaterTank water;
     private FoamTank foam;
     //private Communicator mixer = new Communicator(water, foam);
-    private ElectricEngine motors = new ElectricEngine();
     private FrontTurret frontCannon;
     private RoofTurret headCannon;
     private String[] association;
 
-    public ElectricEngine getMotors() {
-        return motors;
-    }
 
     private Tester tester;
 
