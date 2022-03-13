@@ -342,35 +342,6 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
         return tester;
     }
 
-    public void CentralUnit(LoadingStation box, IntelligentJoystick type) {
-        this.eventBus = new EventBus();
-        association = new String[]{"Red Adair", "Sam"};
-
-        this.light.put(SwitchType.SideLights, new Light[10]); //creating the ten side Lights
-        this.light.put(SwitchType.headLightsFront, new Light[6]); // creating the 6 front lights
-        this.light.put(SwitchType.headLightsRoof, new Light[4]); //4 roof lights roof
-        this.light.put(SwitchType.BlueLights, new Light[10]);
-        this.light.put(SwitchType.warningLights, new Light[2]);
-        for (int i = 0; i < 10; i++) {
-            if (i < 5) {
-                this.light.get(SwitchType.SideLights)[i] = new Light(Side.LEFT, 1); //5 on each side
-            } else {
-                this.light.get(SwitchType.SideLights)[i] = new Light(Side.RIGHT);
-            }
-        }
-        for (int i = 0; i < 6; i++) {
-            if (i < 3) { //3 on each side
-                this.light.get(SwitchType.headLightsFront)[i] = new Light(Type.HEADLIGHTS, 1);
-            } else {
-                this.light.get(SwitchType.headLightsFront)[i] = new Light(Position.BOTTOMRIGHT);
-            }
-        }
-        for (int i = 0; i < 4; i++) { // 4 on the top
-            this.light.get(SwitchType.headLightsRoof)[i] = new Light(Side.FRONT,Position.TOP);
-        }
-
-                eventBus.register(light);
-            }
 
     public void changeLightState(SwitchType switchType) {
         switch (switchType) {

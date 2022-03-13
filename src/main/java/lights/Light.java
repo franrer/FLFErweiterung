@@ -7,7 +7,7 @@ import com.google.common.eventbus.Subscribe;
 public class Light extends Subscriber {
 
     private CCU ccu;
-    private static boolean isOn;
+    private boolean isOn;
     private Position position;
     protected LightColor color;
     private Side side;
@@ -48,11 +48,11 @@ public class Light extends Subscriber {
         this.ccu = ccu;
     }
 
-    public static boolean isOn() {
+    public  boolean isOn() {
         return isOn;
     }
 
-    public static void setOn(boolean on) {
+    public  void setOn(boolean on) {
         isOn = on;
     }
 
