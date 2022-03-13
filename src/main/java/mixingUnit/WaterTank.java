@@ -12,7 +12,4 @@ public class WaterTank extends Tank {
         super(length, width, height,tankSensor);
     }
 
-    public WaterTank() {
-        super();
-    }
 }

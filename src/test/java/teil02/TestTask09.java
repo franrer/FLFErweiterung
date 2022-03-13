@@ -29,7 +29,7 @@ public class TestTask09 {
     @Test
     @Order(1)
     public void buildComplete() {
-        MainTest.buildTest(flf);
+        //MainTest.buildTest(flf);
         FrontTurret front = (FrontTurret) flf.getCabin().getDriverSection().getJoystick().getTurret();
         ;
         RoofTurret roof = (RoofTurret) flf.getCabin().getOperatorSection().getJoystick().getTurret();

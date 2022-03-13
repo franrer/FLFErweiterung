@@ -59,7 +59,7 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private EventBus eventBus;
     private WaterTank water;
     private FoamTank foam;
-    private Communicator mixer = new Communicator(water, foam);
+    //private Communicator mixer = new Communicator(water, foam);
     private ElectricEngine[] motors;
     private FrontTurret frontCannon;
     private RoofTurret headCannon;
@@ -67,10 +67,6 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
 
     public ElectricEngine[] getMotors() {
         return motors;
-    }
-
-    public Communicator getMixer() {
-        return mixer;
     }
 
     private Tester tester;

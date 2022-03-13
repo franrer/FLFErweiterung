@@ -17,16 +17,6 @@ public class RoofTurret extends TurretWithFoam implements IUnitToTest {
     }
 
     @Override
-    public void pumpOut() {
-
-    }
-
-    @Override
-    public void setCannonState(Turret cannonState) {
-
-    }
-
-    @Override
     public void increaseWater() {
         switch (turretWater) {
             case 500 -> turretWater = 1000;
