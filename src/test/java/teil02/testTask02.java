@@ -23,7 +23,7 @@ public class testTask02 {
     public void setup() {
         flf = new FLF(new FLF.Builder(false));
     }
-    public void set(){ ccu = new CCU(new CCU(turnSwitch));}
+   // public void set(){ ccu = new CCU(new CCU(turnSwitch));}
 
     @Test
     public void task02() {
@@ -40,10 +40,10 @@ public class testTask02 {
             }
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.warningLights);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.BlueLights);
-            ccu.turnSwitch(true);
+           // ccu.turnSwitch(true);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.warningLights);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.BlueLights);
-            ccu.turnSwitch(false);
+            //ccu.turnSwitch(false);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.headLightsFront);
             for (int i = 0; i < 2; i++) {
                 assertTrue(flf.getCCU().getHeadFrontLights()[i].isOn());

@@ -59,17 +59,10 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private WaterTank water;
     private FoamTank foam;
     //private Communicator mixer = new Communicator(water, foam);
-    private ElectricEngine[] motors;
-    //private Communicator mixer = new Communicator(water, foam);
-    private MotorSwitch turnMotorSwitch;
-    private CCU unit;
-    private ElectricEngine motors= new ElectricEngine();
+    private ElectricEngine motors = new ElectricEngine();
     private FrontTurret frontCannon;
     private RoofTurret headCannon;
     private String[] association;
-
-    public CCU(CCU turnSwitch) {
-    }
 
     public ElectricEngine getMotors() {
         return motors;
@@ -400,11 +393,7 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     }
 
     public Light[] getHeadFrontLights() {
-        return this.lights(SwitchType.headLightsFront);
-    }
-
-    private Light[] lights(SwitchType headLightsFront) {
-        return new Light[1];
+        return this.light.get(SwitchType.headLightsFront);
     }
 
     public Light[] getHeadRoofLights() {
@@ -415,16 +404,4 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
         return this.light.get(SwitchType.SideLights);
     }
 
-    public Light[] getWarningLights() {
-        return new Light[1];
-    }
-
-
-
-    public Light[] getBlueLights() {
-        return new Light[1];
-    }
-
-    public void turnSwitch(boolean b) {
-    }
 }
