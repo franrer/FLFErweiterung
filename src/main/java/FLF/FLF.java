@@ -190,6 +190,7 @@ public class FLF {
 
             ccu.setFloorSprayNozzle(floorSprayNozzles);
 
+            ccu.setLights(combineLightArrays());
             lights = ccu.getLights();
 
             Controlpanel controlpanel = new Controlpanel();

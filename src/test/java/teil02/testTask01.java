@@ -1,4 +1,4 @@
-package teil02;
+package teil02;;
 
 import org.junit.jupiter.api.*;
 import teil2.task01.Communicator;
