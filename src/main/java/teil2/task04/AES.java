@@ -8,10 +8,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 public class AES implements IEncryptionStrategy {
-    private Cipher ecipher;
-    private Cipher dcipher;
+    private static Cipher ecipher;
+    private static Cipher dcipher;
 
-    private SecretKey key;
+    private static SecretKey key;
 
 
     public AES() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
@@ -27,9 +27,9 @@ public class AES implements IEncryptionStrategy {
     }
 
     @Override
-    public String encrypt(String s) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
+    public String encrypt(String string) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
 
-        byte[] enc = ecipher.doFinal(s.getBytes(StandardCharsets.UTF_8));
+        byte[] enc = ecipher.doFinal(string.getBytes(StandardCharsets.UTF_8));
 
         enc = Base64.getEncoder().encode(enc);
 
@@ -38,9 +38,9 @@ public class AES implements IEncryptionStrategy {
     }
 
     @Override
-    public String decrypt(String s) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
+    public String decrypt(String string) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
 
-        byte[] utf8 = s.getBytes(StandardCharsets.UTF_8);
+        byte[] utf8 = string.getBytes(StandardCharsets.UTF_8);
 
         byte[] dec = Base64.getDecoder().decode(utf8);
 
