@@ -1,6 +1,8 @@
 package turrets;
 
-public abstract class Turret {
+import teil2.task02.Subscriber;
+
+public abstract class Turret extends Subscriber {
 
     protected static Turret active;
     protected static Turret inactive;

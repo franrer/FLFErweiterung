@@ -10,10 +10,11 @@ import teil2.task09.IUnitToTest;
 public class FloorSprayNozzle extends Turret implements IUnitToTest {
 
 
+    private CCU ccu;
 
     public FloorSprayNozzle(CCU ccu) {
         super(100);
-
+        this.ccu=ccu;
     }
 
     @Override
@@ -22,9 +23,10 @@ public class FloorSprayNozzle extends Turret implements IUnitToTest {
     }
     @Subscribe
     public void recieve(SelfProtectionEvent event) {
-        if(!isActive)onOff();
-        this.spray(0);
         onOff();
+        if (isActive()) {
+            spray(ccu.getMixingUnit().takeOut(this));
+        }
 
     }
 

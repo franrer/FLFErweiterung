@@ -55,7 +55,10 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private int code;
     private Person[] users;
     private List<IUnitToTest> unitsToTest;
-    private EventBus eventBus;
+
+
+    private final EventBus eventBus;
+
     private WaterTank water;
     private FoamTank foam;
     //private Communicator mixer = new Communicator(water, foam);
@@ -76,17 +79,17 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
         this.driverSection = driverSection;
         this.operatorSection = operatorSection;
         this.lights = lights;
+        eventBus=new EventBus("event");
         floorSprayNozzle = new FloorSprayNozzle[7];
         for (int i = 0; i < 7; i++) {
             floorSprayNozzle[i] = new FloorSprayNozzle(this);
+            addSubscriber(floorSprayNozzle[i]);
         }
         unitsToTest = new ArrayList<>();
     }
 
-    public CCU(Light[] lights, DriverSection driverSection) {
-        this.lights = lights;
-        unitsToTest = new ArrayList<>();
-        this.driverSection = driverSection;
+    public void addSubscriber(Subscriber subscriber){
+        eventBus.register(subscriber);
     }
 
     public void setUsers(Person[] users) {
