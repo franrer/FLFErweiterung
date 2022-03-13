@@ -440,6 +440,8 @@ public class FLF {
         }
 
         public FLF extension(FLF flf) {
+            //01
+
             //03
             BatteryManagement management = ((DriveUnit) flf.getDriveUnit()).getBatteryManagement();
             management.setBatteryBox(new BatteryBox.Builder()

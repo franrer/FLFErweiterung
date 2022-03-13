@@ -5,6 +5,7 @@ public enum MixType {
     five(5),
     ten(10),
     zero(0);
+    public static StringBuffer instance;
     private int value;
     MixType(int value) {
         this.value = value;

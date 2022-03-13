@@ -15,7 +15,7 @@ public class FrontTurret extends TurretWithFoam implements IUnitToTest {
         super(500);
         this.position = 0;
     }
-    private float tiltDegree;
+    /*private float tiltDegree;
     private Communicator mixDevice;
     public FrontTurret(Communicator mixer) {
         this();
@@ -52,8 +52,18 @@ public class FrontTurret extends TurretWithFoam implements IUnitToTest {
 
     public float getTiltDegree() {
         return tiltDegree;
+    }*/
+
+
+    @Override
+    public void pumpOut() {
+
     }
 
+    @Override
+    public void setCannonState(Turret cannonState) {
+
+    }
 
     @Override
     public void increaseWater() {

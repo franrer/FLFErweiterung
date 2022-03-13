@@ -116,5 +116,4 @@ public class Controlpanel {
     public void turnSwitch(Switch s) {
         operatorSection.turnSwitch(s);
     }
-
 }

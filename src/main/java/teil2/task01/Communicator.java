@@ -12,38 +12,85 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Communicator {
+    private final ArrayList<Object> Ports;
     private Object mixDevice;
 
     public Communicator(WaterTank water, FoamTank foam) {
+        Ports = new ArrayList<>(Config.instance.maximumNumberOfEnginesPerWing);
+        build();
+    }
+    public ArrayList<Object> getPorts() {
+        return Ports;
+    }
+    @SuppressWarnings("unchecked")
+    public void build() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("C:\\Program Files\\Java\\jdk-17.0.2\\bin\\jarsigner", "-verify", "jar/Configuration.jar");
-            Process process = processBuilder.start();
-            process.waitFor();
+            // engines
+            for (int i = 0; i < Config.instance.maximumNumberOfEnginesPerWing; i++) {
+                URL[] urls = {new File(Config.instance.pathToEngineJavaArchive + "Configuration.jar").toURI().toURL()};
+                URLClassLoader urlClassLoader = new URLClassLoader(urls, Communicator.class.getClassLoader());
 
-            InputStream inputStream = process.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line;
-            boolean isComponentAccepted = false;
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-                if (line.contains("verified")) {
-                    isComponentAccepted = true;
+                Class engineClass = Class.forName("Engine", true, urlClassLoader);
+                Object engineInstance = engineClass.getMethod("getInstance").invoke(null);
+
+                Object enginePort = engineClass.getDeclaredField("port").get(engineInstance);
+                if (Config.instance.isDebug) {
+                    MixType.instance.insert("CCU", "Port | " + enginePort.hashCode());
                 }
+                Ports.add(enginePort);
             }
-            if (!isComponentAccepted){
-                throw new RuntimeException();
-            }
-            URL[] urls = {new File("jar\\Configuration.jar").toURI().toURL()};
-            URLClassLoader load = new URLClassLoader(urls,Communicator.class.getClassLoader());
-            Class mixdevice = Class.forName("MixDevice",true,load);
-            Method method = mixdevice.getDeclaredMethod("getInstance",Object.class,Object.class);
-            this.mixDevice = method.invoke(null,water,foam);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException();
+        }
+
+
+
+
+    public void defill(int amount) {
+        try {
+            Method method = mixDevice.getClass().getDeclaredMethod("defill",int.class);
+            method.invoke(this.mixDevice, amount);
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
+            e.printStackTrace();
         }
     }
+
+    public void setToNextMix() {
+        try {
+            Method method = mixDevice.getClass().getDeclaredMethod("setToNextMix");
+            method.invoke(this.mixDevice);
+        } catch (NoSuchMethodException ne) {
+            throw new RuntimeException();
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void WaterTank getWaterTank() {
+        try {
+            Method method = this.mixDevice.getClass().getDeclaredMethod("getWaterTank");
+            return (WaterTank) method.invoke(this.mixDevice);
+        } catch (NoSuchMethodException ne) {
+            throw new RuntimeException();
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public FoamTank getFoamTank() {
+        try {
+            Method method = mixDevice.getClass().getMethod("getFoamTank");
+            Object returnValue =method.invoke(this.mixDevice);
+            return (FoamTank) returnValue;
+        } catch (NoSuchMethodException ne) {
+            throw new RuntimeException();
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+
 
     public void defill(int amount) {
         try {

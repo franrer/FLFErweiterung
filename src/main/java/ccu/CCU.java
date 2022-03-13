@@ -28,7 +28,6 @@ import teil2.task09.ITesterVisitor;
 import teil2.task09.IUnitToTest;
 import teil2.task06.SwitchType;
 import teil2.task02.*;
-import teil2.task01.*;
 import teil2.task09.Tester;
 import turrets.FloorSprayNozzle;
 import turrets.turretsWithFoam.FrontTurret;
@@ -59,19 +58,24 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private EventBus eventBus;
     private WaterTank water;
     private FoamTank foam;
-    private Communicator mixer = new Communicator(water, foam);
-    private ElectricEngine[] motors;
+    //private Communicator mixer = new Communicator(water, foam);
+    private MotorSwitch turnMotorSwitch;
+    private CCU unit;
+    private ElectricEngine motors= new ElectricEngine();
     private FrontTurret frontCannon;
     private RoofTurret headCannon;
     private String[] association;
 
-    public ElectricEngine[] getMotors() {
+    public CCU(CCU turnSwitch) {
+    }
+
+    public ElectricEngine getMotors() {
         return motors;
     }
 
-    public Communicator getMixer() {
+   /* public Communicator getMixer() {
         return mixer;
-    }
+    }*/
 
     private Tester tester;
 
@@ -398,7 +402,11 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     }
 
     public Light[] getHeadFrontLights() {
-        return this.light.get(SwitchType.headLightsFront);
+        return this.lights(SwitchType.headLightsFront);
+    }
+
+    private Light[] lights(SwitchType headLightsFront) {
+        return new Light[1];
     }
 
     public Light[] getHeadRoofLights() {
@@ -409,4 +417,16 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
         return this.light.get(SwitchType.SideLights);
     }
 
+    public Light[] getWarningLights() {
+        return new Light[1];
+    }
+
+
+
+    public Light[] getBlueLights() {
+        return new Light[1];
+    }
+
+    public void turnSwitch(boolean b) {
+    }
 }

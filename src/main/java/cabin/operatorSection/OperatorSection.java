@@ -71,10 +71,6 @@ public class OperatorSection extends AbstractTurretSection {
         this.ccu = ccu;
     }
 
-    public void turnSwitch(Switch s) {
-        ccu.turnSwitch(s);
-    }
-
     public void buttonPress(IButton button) {
         ccu.buttonPress(button);
     }
@@ -85,5 +81,9 @@ public class OperatorSection extends AbstractTurretSection {
 
     public void lockUnlock() {
         cabin.lockUnlock();
+    }
+
+    public void turnSwitch(Switch s) {
+        ccu.turnSwitch(s);
     }
 }

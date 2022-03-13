@@ -1,6 +1,7 @@
 package driveUnit;
 
 import com.google.common.eventbus.Subscribe;
+import inputs.switches.MotorSwitch;
 import teil2.task02.*;
 import teil2.task05.LoadingStation;
 
@@ -16,6 +17,10 @@ public class ElectricEngine extends Subscriber {
         this.isStarted = false;
         consumption = 12.5;
         this.powerUnit = null;
+    }
+
+    public ElectricEngine(MotorSwitch turnMotorSwitch) {
+        super();
     }
 
     public IPowerUnit getPowerUnit() {
@@ -61,8 +66,5 @@ public class ElectricEngine extends Subscriber {
         setOn(!isStarted());
     }
 
-    public boolean isOn() {
-        return (boolean) box.getStatus();
-    }
 
 }

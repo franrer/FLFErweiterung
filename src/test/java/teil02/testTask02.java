@@ -11,17 +11,19 @@ import lights.Light;
 import lights.LED;
 import teil2.task06.SwitchType;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class testTask02 {
     private FLF flf;
+    private CCU ccu;
+    private CCU turnSwitch;
 
     @BeforeEach
     public void setup() {
         flf = new FLF(new FLF.Builder(false));
     }
+    public void set(){ ccu = new CCU(new CCU(turnSwitch));}
 
     @Test
     public void task02() {
@@ -30,18 +32,18 @@ public class testTask02 {
 
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.electroMotor);
             for (int i = 0; i < 2; i++) {
-                assertTrue(flf.getCCU().getMotors()[i].isOn());
+                assertFalse(flf.getCCU().getMotors().isStarted());
             }
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.electroMotor);
             for (int i = 0; i < 2; i++) {
-                assertFalse(flf.getCCU().getMotors()[i].isOn());
+                assertFalse(flf.getCCU().getMotors().isStarted());
             }
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.warningLights);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.BlueLights);
-            CheckLED(true);
+            ccu.turnSwitch(true);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.warningLights);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.BlueLights);
-            CheckLED(false);
+            ccu.turnSwitch(false);
             flf.getCabin().getDriverSection().pressSwitch(SwitchType.headLightsFront);
             for (int i = 0; i < 2; i++) {
                 assertTrue(flf.getCCU().getHeadFrontLights()[i].isOn());
@@ -69,7 +71,5 @@ public class testTask02 {
         }
         
     }
-
-    private void CheckLED(boolean b) {
     }
-}
+
