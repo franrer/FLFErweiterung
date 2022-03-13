@@ -67,4 +67,8 @@ public class Cabin {
         busDoorRight.lockUnlock();
         busDoorLeft.lockUnlock();
     }
+
+    public cabin.driverSection.DriverSection getSeats() {
+        return getSeats();
+    }
 }

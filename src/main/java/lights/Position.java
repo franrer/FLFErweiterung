@@ -6,5 +6,8 @@ public enum Position {
     LEFT,
     TOPRIGHT,
     TOPLEFT,
+    BOTTOMRIGHT,
+    BOTTOMLEFT,
+    FRONTTOP,
     ANY
 }

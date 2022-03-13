@@ -7,5 +7,5 @@ public enum Side {
     LEFT,
     RIGHT,
     ROOF,
-    SIDE
+    Position, BLUELIGHT, SIDE
 }

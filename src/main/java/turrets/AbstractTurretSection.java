@@ -24,5 +24,4 @@ public abstract class AbstractTurretSection {
     public void turnRight(TurretWithFoam turret) {
         ccu.turnRight(turret);
     }
-
 }

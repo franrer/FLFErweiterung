@@ -2,6 +2,7 @@ package turrets.turretsWithFoam;
 
 import teil2.task09.ITesterVisitor;
 import teil2.task09.IUnitToTest;
+import turrets.Turret;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,16 @@ public class RoofTurret extends TurretWithFoam implements IUnitToTest {
         super(500);
         this.segments = segments;
         this.positionVertical = 0;
+    }
+
+    @Override
+    public void pumpOut() {
+
+    }
+
+    @Override
+    public void setCannonState(Turret cannonState) {
+
     }
 
     @Override

@@ -1,8 +1,12 @@
 package turrets;
 
 public abstract class Turret {
+
+    protected static Turret active;
+    protected static Turret inactive;
     protected boolean isActive;
     protected int turretWater;
+    private int value;
 
     public Turret(int turretWater) {
         this.turretWater = turretWater;
@@ -24,4 +28,9 @@ public abstract class Turret {
     public boolean isActive() {
         return isActive;
     }
+    public int getValue() {
+        return this.value;
+    }
+
+    protected abstract void pumpOut();
 }

@@ -10,6 +10,7 @@ import inputs.driverInputs.IPedal;
 import inputs.driverInputs.SteeringWheel;
 import inputs.turretInputs.AbstractJoystick;
 import inputs.turretInputs.RotaryKnob;
+import teil2.task06.SwitchType;
 import turrets.AbstractTurretSection;
 
 public class DriverSection extends AbstractTurretSection {
@@ -119,4 +120,6 @@ public class DriverSection extends AbstractTurretSection {
     }
 
 
+    public void pressSwitch(SwitchType switchType) {
+    }
 }

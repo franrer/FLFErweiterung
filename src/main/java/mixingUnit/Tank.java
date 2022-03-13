@@ -16,6 +16,10 @@ public abstract class Tank {
         this.sensor=tankSensor;
     }
 
+    public Tank() {
+
+    }
+
     public void fill(int amount) {
         int[] pos = getPositionFirstEmpty();
         int x = pos[0];

@@ -1,10 +1,12 @@
 package cabin.operatorSection;
 
 import inputs.switches.*;
+import inputs.switches.Switch;
 import lights.Side;
 import lights.Type;
 import teil2.task08.TankLed;
 import teil2.task08.TankSensor;
+import teil2.task06.*;
 
 public class Controlpanel {
 

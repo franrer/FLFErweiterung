@@ -1,14 +1,57 @@
 package turrets.turretsWithFoam;
 
+import teil2.task01.*;
 import teil2.task09.ITesterVisitor;
 import teil2.task09.IUnitToTest;
+import turrets.Turret;
 
 public class FrontTurret extends TurretWithFoam implements IUnitToTest {
+    private Turret steps;
     private int position;
+    private int value;
+    private Turret cannonState;
 
     public FrontTurret() {
         super(500);
         this.position = 0;
+    }
+    private float tiltDegree;
+    private Communicator mixDevice;
+    public FrontTurret(Communicator mixer) {
+        this();
+        this.tiltDegree = 0;
+        this.turretWater = getStage();
+        this.mixDevice = mixer;
+    }
+
+    @Override
+    public void pumpOut() {
+        this.mixDevice.defill(steps.getValue());
+    }
+    public Communicator getMixDevice() {
+        return mixDevice;
+    }
+    @Override
+    public void setCannonState(Turret cannonState) {
+        if (cannonState==Turret.active) {
+            this.tiltDegree = 90;
+        } else {
+            this.tiltDegree =0;
+        }
+        this.cannonState = cannonState;
+    }
+
+
+    public void setSteps(Turret steps) {
+        this.steps = steps;
+    }
+
+    public Turret getSteps() {
+        return steps;
+    }
+
+    public float getTiltDegree() {
+        return tiltDegree;
     }
 
 
@@ -56,6 +99,7 @@ public class FrontTurret extends TurretWithFoam implements IUnitToTest {
             default -> 0;
         };
     }
+
 
     @Override
     public void onOff() {

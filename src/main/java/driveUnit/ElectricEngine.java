@@ -1,10 +1,16 @@
 package driveUnit;
 
-public class ElectricEngine {
+import com.google.common.eventbus.Subscribe;
+import teil2.task02.*;
+import teil2.task05.LoadingStation;
+
+public class ElectricEngine extends Subscriber {
 
     private IPowerUnit powerUnit;
     private double consumption;   //12.5
     private boolean isStarted;
+    private LoadingStation box;
+
 
     public ElectricEngine() {
         this.isStarted = false;
@@ -40,4 +46,23 @@ public class ElectricEngine {
     public boolean isStarted() {
         return isStarted;
     }
+
+    public void setOn(boolean on) {
+        if (on) {
+            start();
+        } else {
+            shutdown();
+        }
+
+    }
+
+    @Subscribe
+    public void receive(ElectricMotorEvent event) {
+        setOn(!isStarted());
+    }
+
+    public boolean isOn() {
+        return (boolean) box.getStatus();
+    }
+
 }
