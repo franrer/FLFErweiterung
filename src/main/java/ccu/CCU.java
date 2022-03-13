@@ -59,6 +59,8 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     private WaterTank water;
     private FoamTank foam;
     //private Communicator mixer = new Communicator(water, foam);
+    private ElectricEngine[] motors;
+    //private Communicator mixer = new Communicator(water, foam);
     private MotorSwitch turnMotorSwitch;
     private CCU unit;
     private ElectricEngine motors= new ElectricEngine();
@@ -72,10 +74,6 @@ public class CCU implements ITurretControl, IDriveUnitControl, ILightControl, IT
     public ElectricEngine getMotors() {
         return motors;
     }
-
-   /* public Communicator getMixer() {
-        return mixer;
-    }*/
 
     private Tester tester;
 

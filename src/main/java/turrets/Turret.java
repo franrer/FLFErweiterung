@@ -28,9 +28,4 @@ public abstract class Turret {
     public boolean isActive() {
         return isActive;
     }
-    public int getValue() {
-        return this.value;
-    }
-
-    protected abstract void pumpOut();
 }

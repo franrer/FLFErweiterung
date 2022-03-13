@@ -10,7 +10,5 @@ public class FoamTank extends Tank {
         super(length, width, height,tankSensor);
     }
 
-    public FoamTank() {
 
-    }
 }

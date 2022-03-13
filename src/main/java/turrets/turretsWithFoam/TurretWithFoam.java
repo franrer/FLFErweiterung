@@ -32,8 +32,6 @@ public abstract class TurretWithFoam extends Turret {
         }
     }
 
-    public abstract void setCannonState(Turret cannonState);
-
     public abstract void increaseWater();
 
     public abstract void decreaseWater();

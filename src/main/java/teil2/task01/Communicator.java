@@ -1,6 +1,10 @@
-/*package teil2.task01;
+package teil2.task01;
 import mixingUnit.FoamTank;
+import mixingUnit.IMixingUnit;
+import mixingUnit.Tank;
 import mixingUnit.WaterTank;
+import turrets.Turret;
+import turrets.turretsWithFoam.TurretWithFoam;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
@@ -11,129 +15,91 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Communicator {
-    private final ArrayList<Object> Ports;
-    private Object mixDevice;
+public class Communicator implements IMixingUnit {
 
-    public Communicator(WaterTank water, FoamTank foam) {
-        Ports = new ArrayList<>(Config.instance.maximumNumberOfEnginesPerWing);
-        build();
+    private Object port;
+
+    public Communicator(){port=buildPort();}
+
+    public Object getPort() {
+        return port;
     }
-    public ArrayList<Object> getPorts() {
-        return Ports;
-    }
-    @SuppressWarnings("unchecked")
-    public void build() {
+
+    @Override
+    public int takeOut(Turret turret) {
+        int output=0;
         try {
-            // engines
-            for (int i = 0; i < Config.instance.maximumNumberOfEnginesPerWing; i++) {
-                URL[] urls = {new File(Config.instance.pathToEngineJavaArchive + "Configuration.jar").toURI().toURL()};
-                URLClassLoader urlClassLoader = new URLClassLoader(urls, Communicator.class.getClassLoader());
-
-                Class engineClass = Class.forName("Engine", true, urlClassLoader);
-                Object engineInstance = engineClass.getMethod("getInstance").invoke(null);
-
-                Object enginePort = engineClass.getDeclaredField("port").get(engineInstance);
-                if (Config.instance.isDebug) {
-                    MixType.instance.insert("CCU", "Port | " + enginePort.hashCode());
-                }
-                Ports.add(enginePort);
-            }
+            Method method = port.getClass().getMethod(PortConfiguration.instance.nameOfTakeOutMethode, int.class);
+            output= (int) method.invoke(port, turret.getTurretOutput());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return output;
+    }
 
-
-
-
-    public void defill(int amount) {
+    @Override
+    public int mixing(TurretWithFoam turret) {
+        int output=0;
         try {
-            Method method = mixDevice.getClass().getDeclaredMethod("defill",int.class);
-            method.invoke(this.mixDevice, amount);
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
+        Method method = port.getClass().getMethod(PortConfiguration.instance.nameOfMixingMethode, int.class,int.class);
+        output= (int) method.invoke(port,turret.getFoam(), turret.getTurretOutput());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+        return output;
+    }
+
+    @Override
+    public int[] getTanksCapacity() {
+        int[] output=null;
+        try {
+            Method method = port.getClass().getMethod(PortConfiguration.instance.nameOfGetTanksCapacityMethode);
+            output= (int[]) method.invoke(port);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    @Override
+    public int[] getTanksFillState() {
+        int[] output=null;
+        try {
+            Method method = port.getClass().getMethod(PortConfiguration.instance.nameOfGetTanksFillStateMethode);
+            output= (int[]) method.invoke(port);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    @Override
+    public void fillTanks() {
+        try {
+            Method method = port.getClass().getMethod(PortConfiguration.instance.nameOfTFillTanksMethode);
+            method.invoke(port);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setToNextMix() {
+    @SuppressWarnings("unchecked")
+    private Object buildPort() {
+        Object port = null;
         try {
-            Method method = mixDevice.getClass().getDeclaredMethod("setToNextMix");
-            method.invoke(this.mixDevice);
-        } catch (NoSuchMethodException ne) {
-            throw new RuntimeException();
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
+            URL[] urls = {new File(PortConfiguration.instance.pathToJar).toURI().toURL()};
+            URLClassLoader urlClassLoader = new URLClassLoader(urls, Communicator.class.getClassLoader());
 
-    public void WaterTank getWaterTank() {
-        try {
-            Method method = this.mixDevice.getClass().getDeclaredMethod("getWaterTank");
-            return (WaterTank) method.invoke(this.mixDevice);
-        } catch (NoSuchMethodException ne) {
-            throw new RuntimeException();
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
+            Class cryptClass = Class.forName(PortConfiguration.instance.nameOfPortClass, true, urlClassLoader);
 
-    public FoamTank getFoamTank() {
-        try {
-            Method method = mixDevice.getClass().getMethod("getFoamTank");
-            Object returnValue =method.invoke(this.mixDevice);
-            return (FoamTank) returnValue;
-        } catch (NoSuchMethodException ne) {
-            throw new RuntimeException();
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+            Constructor<?> cryptConstructor = cryptClass.getConstructor();
+            Object cryptManager = cryptConstructor.newInstance();
+            Method methode = cryptClass.getMethod("getPort");
+            port = methode.invoke(cryptManager);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
-        return null;
+        return port;
     }
 }
-
-
-    public void defill(int amount) {
-        try {
-            Method method = mixDevice.getClass().getDeclaredMethod("defill",int.class);
-            method.invoke(this.mixDevice, amount);
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setToNextMix() {
-        try {
-            Method method = mixDevice.getClass().getDeclaredMethod("setToNextMix");
-            method.invoke(this.mixDevice);
-        } catch (NoSuchMethodException ne) {
-            throw new RuntimeException();
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public WaterTank getWaterTank() {
-        try {
-            Method method = this.mixDevice.getClass().getDeclaredMethod("getWaterTank");
-            return (WaterTank) method.invoke(this.mixDevice);
-        } catch (NoSuchMethodException ne) {
-            throw new RuntimeException();
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public FoamTank getFoamTank() {
-        try {
-            Method method = mixDevice.getClass().getMethod("getFoamTank");
-            Object returnValue =method.invoke(this.mixDevice);
-            return (FoamTank) returnValue;
-        } catch (NoSuchMethodException ne) {
-            throw new RuntimeException();
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-}*/
